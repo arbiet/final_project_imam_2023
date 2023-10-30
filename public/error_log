@@ -1,0 +1,141 @@
+[30-Oct-2023 02:28:21 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:57
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(57): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 57
+[30-Oct-2023 02:28:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:57
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(57): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 57
+[30-Oct-2023 02:29:57 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:57
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(57): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 57
+[30-Oct-2023 02:30:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:57
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(57): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 57
+[30-Oct-2023 02:31:08 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:31:36 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 20
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 22
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 23
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 36
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseLogoUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 37
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 38
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 60
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 71
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseDescription in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 72
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 73
+[30-Oct-2023 02:32:45 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 82
+[30-Oct-2023 02:33:50 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:34:25 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:35:41 UTC] PHP Warning:  require_once(/database/connection.php): Failed to open stream: No such file or directory in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 3
+[30-Oct-2023 02:35:41 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/database/connection.php' (include_path='.:/opt/alt/php81/usr/share/pear:/opt/alt/php81/usr/share/php:/usr/share/pear:/usr/share/php') in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 3
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 20
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 22
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 23
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 36
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseLogoUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 37
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 38
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 60
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 71
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseDescription in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 72
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 73
+[30-Oct-2023 02:36:26 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php on line 82
+[30-Oct-2023 02:37:14 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:38:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:42:33 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:43:23 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:45:35 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_yayuk'@'localhost' (using password: YES) in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:45:46 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_skripsi_aziz'@'localhost' to database 'ikiz5613_final_project_yayuk_2023' in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:45:46 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_skripsi_aziz'@'localhost' to database 'ikiz5613_final_project_yayuk_2023' in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:45:46 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_skripsi_aziz'@'localhost' to database 'ikiz5613_final_project_yayuk_2023' in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:45:47 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_skripsi_aziz'@'localhost' to database 'ikiz5613_final_project_yayuk_2023' in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:45:47 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_skripsi_aziz'@'localhost' to database 'ikiz5613_final_project_yayuk_2023' in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66
+[30-Oct-2023 02:45:47 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'ikiz5613_skripsi_aziz'@'localhost' to database 'ikiz5613_final_project_yayuk_2023' in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php:66
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php(66): mysqli->__construct()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/index.php(3): require_once('/home/ikiz5613/...')
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/database/connection.php on line 66

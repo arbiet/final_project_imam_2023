@@ -1,0 +1,18 @@
+[30-Oct-2023 03:02:53 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.role' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_update.php:185
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_update.php(185): mysqli->query()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_update.php(197): getRoles()
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_update.php on line 185
+[30-Oct-2023 03:03:57 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.role' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php:206
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php(206): mysqli->query()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php(218): getRoles()
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php on line 206
+[30-Oct-2023 03:05:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.role' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php:209
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php(209): mysqli->query()
+#1 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php(221): getRoles()
+#2 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/manage_users/manage_users_create.php on line 209

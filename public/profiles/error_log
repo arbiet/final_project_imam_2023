@@ -1,0 +1,6 @@
+[30-Oct-2023 02:47:40 UTC] PHP Warning:  Undefined array key "UserID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/profiles/profile.php on line 9
+[30-Oct-2023 02:47:40 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/profiles/profile.php:13
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/profiles/profile.php(13): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/profiles/profile.php on line 13

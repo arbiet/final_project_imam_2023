@@ -1,0 +1,177 @@
+[30-Oct-2023 02:46:13 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:46:28 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:46:57 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:46:58 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:46:59 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:46:59 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:47:14 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:47:38 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/sidebar.php on line 12
+[30-Oct-2023 02:47:38 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/sidebar.php on line 23
+[30-Oct-2023 02:47:38 UTC] PHP Warning:  Undefined array key "FullName" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 79
+[30-Oct-2023 02:47:38 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 81
+[30-Oct-2023 02:47:38 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 83
+[30-Oct-2023 02:47:42 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/sidebar.php on line 12
+[30-Oct-2023 02:47:42 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/sidebar.php on line 23
+[30-Oct-2023 02:47:42 UTC] PHP Warning:  Undefined array key "FullName" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 79
+[30-Oct-2023 02:47:42 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 81
+[30-Oct-2023 02:47:42 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 83
+[30-Oct-2023 02:47:44 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/sidebar.php on line 12
+[30-Oct-2023 02:47:44 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/sidebar.php on line 23
+[30-Oct-2023 02:47:44 UTC] PHP Warning:  Undefined array key "FullName" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 79
+[30-Oct-2023 02:47:44 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 81
+[30-Oct-2023 02:47:44 UTC] PHP Warning:  Undefined array key "RoleID" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/dashboard.php on line 83
+[30-Oct-2023 02:48:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:49:54 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:50:02 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:50:19 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:51:25 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:52:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:52:54 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:53:08 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:54:02 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:54:21 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:54:22 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:55:43 UTC] PHP Warning:  Undefined variable $baseTitle in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/header.php on line 7
+[30-Oct-2023 02:55:43 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/header.php on line 9
+[30-Oct-2023 02:55:43 UTC] PHP Warning:  Undefined variable $baseUrl in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/components/header.php on line 10
+[30-Oct-2023 02:55:43 UTC] PHP Warning:  Undefined variable $conn in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 98
+[30-Oct-2023 02:55:43 UTC] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:98
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 98
+[30-Oct-2023 02:56:01 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:56:13 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:56:42 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:36
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(36): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 36
+[30-Oct-2023 02:57:44 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:57:54 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:57:58 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:58:01 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:58:02 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:58:02 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:58:02 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:58:03 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:58:03 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:58:03 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:59:29 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "consolo" in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:20
+Stack trace:
+#0 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 20
+[30-Oct-2023 02:59:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'ikiz5613_final_project_yayuk_2023.Users' doesn't exist in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php:39
+Stack trace:
+#0 /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php(39): mysqli->prepare()
+#1 {main}
+  thrown in /home/ikiz5613/public_html/yayukyuningsih.arbiet.my.id/public/systems/login.php on line 39
