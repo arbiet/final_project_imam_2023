@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Check if the email exists in the database
-  $query = "SELECT * FROM users WHERE email=? LIMIT 1";
+  $query = "SELECT * FROM Users WHERE email=? LIMIT 1";
   $stmt = $conn->prepare($query);
   $stmt->bind_param('s', $email);
   $stmt->execute();
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($user) {
     // Reset the password to "12345678"
     $new_password = hash('sha256', '12345678');
-    $update_query = "UPDATE users SET password=? WHERE email=?";
+    $update_query = "UPDATE Users SET password=? WHERE email=?";
     $update_stmt = $conn->prepare($update_query);
     $update_stmt->bind_param('ss', $new_password, $email);
 
