@@ -1,8 +1,5 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 // Include the database connection
 require_once('../../database/connection.php');
@@ -48,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Generate User ID and check if it already exists in the database
         $user_id = generateRandomUserID();
 
-        $query = "SELECT * FROM Users WHERE UserID = ? LIMIT 1";
+        $query = "SELECT * FROM users WHERE UserID = ? LIMIT 1";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('s', $user_id);
         $stmt->execute();
@@ -291,25 +288,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include('../components/footer.php'); ?>
     <!-- End Footer -->
 </div>
-<!-- End Main Content -->
-<script>
-    // Function to show a confirmation dialog
-    function confirmDelete(userID) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If the user confirms, redirect to the delete page
-                window.location.href = `UserDelete.php?id=${userID}`;
-            }
-        });
-    }
-</script>
 </body>
 
 </html>

@@ -22,7 +22,7 @@ $success_message = '';
 $error_message = '';
 
 // Lakukan penghapusan catatan terkait dari tabel "logactivity"
-$query = "DELETE FROM LogActivities WHERE UserID = ?";
+$query = "DELETE FROM logactivity WHERE UserID = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param('i', $id);
 
@@ -31,7 +31,7 @@ if ($stmt->execute()) {
     $stmt->close();
 
     // Sekarang, kita bisa melanjutkan dengan menghapus pengguna
-    $query = "DELETE FROM Users WHERE UserID = ?";
+    $query = "DELETE FROM users WHERE UserID = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('i', $id);
 
@@ -85,6 +85,4 @@ if (!empty($success_message)) {
 ?>
 
 <div class="h-screen flex flex-col">
-    <?php include_once('../components/navbar.php'); ?>
-    <?php include('../components/footer.php'); ?>
 </div>

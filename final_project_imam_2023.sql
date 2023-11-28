@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logactivity`
+-- Table structure for table `LogActivities`
 --
 
-CREATE TABLE `logactivity` (
+CREATE TABLE `LogActivities` (
   `LogID` int(11) NOT NULL,
   `UserID` int(11) DEFAULT NULL,
   `ActivityDescription` text DEFAULT NULL,
@@ -35,10 +35,10 @@ CREATE TABLE `logactivity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `logactivity`
+-- Dumping data for table `LogActivities`
 --
 
-INSERT INTO `logactivity` (`LogID`, `UserID`, `ActivityDescription`, `ActivityTimestamp`) VALUES
+INSERT INTO `LogActivities` (`LogID`, `UserID`, `ActivityDescription`, `ActivityTimestamp`) VALUES
 (1, 0, 'User logged in', '2023-10-29 12:35:16'),
 (2, 0, 'User logged out', '2023-10-29 12:38:21'),
 (3, 0, 'User logged in', '2023-10-29 12:38:44'),
@@ -60,19 +60,19 @@ INSERT INTO `logactivity` (`LogID`, `UserID`, `ActivityDescription`, `ActivityTi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role`
+-- Table structure for table `Roles`
 --
 
-CREATE TABLE `role` (
+CREATE TABLE `Roles` (
   `RoleID` int(11) NOT NULL,
   `RoleName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `role`
+-- Dumping data for table `Roles`
 --
 
-INSERT INTO `role` (`RoleID`, `RoleName`) VALUES
+INSERT INTO `Roles` (`RoleID`, `RoleName`) VALUES
 (1, 'Admin'),
 (3, 'Student'),
 (2, 'Teacher');
@@ -80,10 +80,10 @@ INSERT INTO `role` (`RoleID`, `RoleName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `Users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `Users` (
   `UserID` int(11) NOT NULL,
   `Username` varchar(50) NOT NULL,
   `Password` varchar(255) NOT NULL,
@@ -102,10 +102,10 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `Users`
 --
 
-INSERT INTO `users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `PhoneNumber`, `RoleID`, `AccountCreationDate`, `LastLogin`, `AccountStatus`, `ProfilePictureURL`, `ActivationStatus`) VALUES
+INSERT INTO `Users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `PhoneNumber`, `RoleID`, `AccountCreationDate`, `LastLogin`, `AccountStatus`, `ProfilePictureURL`, `ActivationStatus`) VALUES
 (0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 3, '2023-10-29 13:19:10', '2023-10-29 20:04:55', NULL, '653e5a409b4fb.jpeg', NULL),
 (137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-28 01:04:12', '2023-11-28 08:04:12', NULL, 'default.png', NULL);
 
@@ -114,23 +114,23 @@ INSERT INTO `users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `Dat
 --
 
 --
--- Indexes for table `logactivity`
+-- Indexes for table `LogActivities`
 --
-ALTER TABLE `logactivity`
+ALTER TABLE `LogActivities`
   ADD PRIMARY KEY (`LogID`),
   ADD KEY `UserID` (`UserID`);
 
 --
--- Indexes for table `role`
+-- Indexes for table `Roles`
 --
-ALTER TABLE `role`
+ALTER TABLE `Roles`
   ADD PRIMARY KEY (`RoleID`),
   ADD UNIQUE KEY `RoleName` (`RoleName`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `Users`
 --
-ALTER TABLE `users`
+ALTER TABLE `Users`
   ADD PRIMARY KEY (`UserID`),
   ADD UNIQUE KEY `Username` (`Username`),
   ADD UNIQUE KEY `Email` (`Email`),
@@ -141,9 +141,9 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `logactivity`
+-- AUTO_INCREMENT for table `LogActivities`
 --
-ALTER TABLE `logactivity`
+ALTER TABLE `LogActivities`
   MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
@@ -151,16 +151,16 @@ ALTER TABLE `logactivity`
 --
 
 --
--- Constraints for table `logactivity`
+-- Constraints for table `LogActivities`
 --
-ALTER TABLE `logactivity`
-  ADD CONSTRAINT `logactivity_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+ALTER TABLE `LogActivities`
+  ADD CONSTRAINT `logactivity_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`);
 
 --
--- Constraints for table `users`
+-- Constraints for table `Users`
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `role` (`RoleID`);
+ALTER TABLE `Users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `Roles` (`RoleID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

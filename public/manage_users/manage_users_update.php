@@ -181,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         function getRoles($conn)
                         {
                             $roles = array();
-                            $query = "SELECT RoleID, RoleName FROM Role";
+                            $query = "SELECT RoleID, RoleName FROM Roles";
                             $result = $conn->query($query);
 
                             if (

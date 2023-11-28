@@ -2,7 +2,22 @@
     <ul class="text-gray-400">
         <li class="px-6 py-4 hover:bg-gray-700 cursor-pointer space-x-2 flex items-center">
             <i class="fas fa-tachometer-alt mr-3"></i>
-            <a href="../systems/dashboard.php">Dashboard</a>
+            <?php
+            if (isset($_SESSION['RoleID'])) {
+                $roleID = $_SESSION['RoleID'];
+
+                if ($roleID == 1) {
+                    // Admin
+                    echo '<a href="../systems/dashboard_admin.php">Dashboard</a>';
+                } elseif ($roleID == 2) {
+                    // Teacher
+                    echo '<a href="../systems/dashboard_teacher.php">Dashboard</a>';
+                } elseif ($roleID == 3) {
+                    // Student
+                    echo '<a href="../systems/dashboard_student.php">Dashboard</a>';
+                }
+            }
+            ?>
         </li>
         <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
             <i class="fas fa-user mr-3"></i>
@@ -15,6 +30,50 @@
             <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
                 <i class="fas fa-user-cog mr-3"></i>
                 <a href="../manage_users/manage_users_list.php">Manage Users</a>
+            </li>
+            ';
+        }
+        ?>
+        <?php
+        if ($_SESSION['RoleID'] === 1) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-door-closed mr-3"></i>
+                <a href="../manage_classes/manage_classes_list.php">Manage Classes</a>
+            </li>
+            ';
+        }
+        ?>
+        <?php
+        if ($_SESSION['RoleID'] === 10) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-shield-halved mr-3"></i>
+                <a href="../manage_roles/manage_roles_list.php">Manage Roles</a>
+            </li>
+            ';
+        }
+        ?>
+        <?php
+        if ($_SESSION['RoleID'] === 1) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-chalkboard-user mr-3"></i>
+                <a href="../manage_teachers/manage_teachers_list.php">Manage Teacher</a>
+            </li>
+            ';
+        }
+        ?>
+        <?php
+        if ($_SESSION['RoleID'] === 1 or $_SESSION['RoleID'] === 2) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-users mr-3"></i>
+                <a href="../manage_students/manage_students_list.php">Manage Students</a>
             </li>
             ';
         }

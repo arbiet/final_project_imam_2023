@@ -5,7 +5,6 @@ session_start();
 require_once('../../database/connection.php');
 
 // Initialize variables
-$username = $password = '';
 $errors = array();
 
 ?>
@@ -22,13 +21,13 @@ $errors = array();
         <!-- End Sidebar -->
 
         <!-- Main Content -->
-        <main class=" bg-gray-50 flex flex-col flex-1 overflow-y-scroll h-screen flex-shrink-0 sc-hide pb-40">
+        <main class="bg-gray-50 flex flex-col flex-1 overflow-y-scroll h-screen flex-shrink-0 sc-hide pb-40">
             <div class="flex items-start justify-start p-6 shadow-md m-4 flex-1 flex-col">
                 <!-- Header Content -->
                 <div class="flex flex-row justify-between items-center w-full border-b-2 border-gray-600 mb-2 pb-2">
-                    <h1 class="text-3xl text-gray-800 font-semibol w-full">Users</h1>
+                    <h1 class="text-3xl text-gray-800 font-semibold w-full">Classes</h1>
                     <div class="flex flex-row justify-end items-center">
-                        <a href="<?php echo $baseUrl; ?>public/manage_users/manage_users_create.php" class="bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                        <a href="<?php echo $baseUrl; ?>public/manage_classes/manage_classes_create.php" class="bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
                             <i class="fas fa-plus mr-2"></i>
                             <span>Create</span>
                         </a>
@@ -41,7 +40,7 @@ $errors = array();
                     <div class="flex flex-row justify-between items-center w-full mb-2 pb-2">
                         <div>
                             <h2 class="text-lg text-gray-800 font-semibold">Welcome back, <?php echo $_SESSION['FullName']; ?>!</h2>
-                            <p class="text-gray-600 text-sm">User information.</p>
+                            <p class="text-gray-600 text-sm">Class information.</p>
                         </div>
                         <!-- Search -->
                         <form class="flex items-center justify-end space-x-2 w-96">
@@ -59,26 +58,31 @@ $errors = array();
                         <thead>
                             <tr>
                                 <th class="text-left py-2">No</th>
-                                <th class="text-left py-2">Username</th>
-                                <th class="text-left py-2">Email</th>
-                                <th class="text-left py-2">Role</th>
-                                <th class="text-left py-2">Last Login</th>
+                                <th class="text-left py-2">Class Name</th>
+                                <th class="text-left py-2">Education Level</th>
+                                <th class="text-left py-2">Homeroom Teacher</th>
+                                <th class="text-left py-2">Curriculum</th>
+                                <th class="text-left py-2">Academic Year</th>
                                 <th class="text-left py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            // Fetch user data from the database and join with the Role table
+                            // Fetch class data from the database
                             $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
                             $page = isset($_GET['page']) ? $_GET['page'] : 1;
-                            $query = "SELECT u.UserID, u.Username, u.Email, r.RoleName, u.LastLogin, u.ActivationStatus FROM Users u
-                                      LEFT JOIN Roles r ON u.RoleID = r.RoleID
-                                      WHERE u.Username LIKE '%$searchTerm%' OR u.Email LIKE '%$searchTerm%'
-                                      LIMIT 15 OFFSET " . ($page - 1) * 15;
+
+                            $query = "SELECT Classes.ClassID, Classes.ClassName, Classes.EducationLevel, Teachers.AcademicDegree, Users.FullName AS HomeroomTeacher, Classes.Curriculum, Classes.AcademicYear
+                            FROM Classes
+                            LEFT JOIN Teachers ON Classes.HomeroomTeacher = Teachers.TeacherID
+                            LEFT JOIN Users ON Teachers.UserID = Users.UserID
+                            WHERE Classes.ClassName LIKE '%$searchTerm%'
+                            LIMIT 15 OFFSET " . ($page - 1) * 15;
+
                             $result = $conn->query($query);
 
                             // Count total rows in the table
-                            $queryCount = "SELECT COUNT(*) AS count FROM Users WHERE Username LIKE '%$searchTerm%' OR Email LIKE '%$searchTerm%'";
+                            $queryCount = "SELECT COUNT(*) AS count FROM Classes WHERE ClassName LIKE '%$searchTerm%'";
                             $resultCount = $conn->query($queryCount);
                             $rowCount = $resultCount->fetch_assoc()['count'];
                             $totalPage = ceil($rowCount / 15);
@@ -89,43 +93,37 @@ $errors = array();
                             ?>
                                 <tr>
                                     <td class="py-2"><?php echo $no++; ?></td>
+                                    <td class="py-2"><?php echo $row['ClassName']; ?></td>
+                                    <td class="py-2"><?php echo $row['EducationLevel']; ?></td>
                                     <td class="py-2">
-                                        <?php echo $row['Username']; ?>
                                         <?php
-                                        if ($row['ActivationStatus'] == 'pending' || $row['ActivationStatus'] == NULL) {
-                                            echo '<i class="fas fa-hourglass-half text-yellow-500"></i>';
-                                        } elseif ($row['ActivationStatus'] == 'active') {
-                                            echo '<i class="fas fa-check-circle text-green-500"></i>';
-                                        } elseif ($row['ActivationStatus'] == 'disabled') {
-                                            echo '<i class="fas fa-ban text-red-500"></i>';
+                                        if ($row['HomeroomTeacher']) {
+                                            echo $row['HomeroomTeacher'];
+                                            echo ' (' . $row['AcademicDegree'] . ')';
+                                        } else {
+                                            echo 'N/A';
                                         }
                                         ?>
                                     </td>
-                                    <td class="py-2"><?php echo $row['Email']; ?></td>
-                                    <td class="py-2"><?php echo $row['RoleName']; ?></td>
-                                    <td class="py-2"><?php echo $row['LastLogin']; ?></td>
+                                    <td class="py-2"><?php echo $row['Curriculum']; ?></td>
+                                    <td class="py-2"><?php echo $row['AcademicYear']; ?></td>
 
                                     <td class='py-2'>
-                                        <a href="<?php echo $baseUrl; ?>public/manage_users/manage_users_detail.php?id=<?php echo $row['UserID'] ?>" class='bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                        <a href="<?php echo $baseUrl; ?>public/manage_classes/manage_classes_detail.php?id=<?php echo $row['ClassID'] ?>" class='bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
                                             <i class='fas fa-eye mr-2'></i>
                                             <span>Detail</span>
                                         </a>
-                                        <a href="<?php echo $baseUrl; ?>public/manage_users/manage_users_update.php?id=<?php echo $row['UserID'] ?>" class='bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                        <a href="<?php echo $baseUrl; ?>public/manage_classes/manage_classes_update.php?id=<?php echo $row['ClassID'] ?>" class='bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
                                             <i class='fas fa-edit mr-2'></i>
                                             <span>Edit</span>
                                         </a>
-                                        <a href="#" onclick="confirmDelete(<?php echo $row['UserID']; ?>)" class='bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                        <a href="<?php echo $baseUrl; ?>public/manage_classes/manage_classes_add_subject.php?id=<?php echo $row['ClassID'] ?>" class='bg-purple-500 hover-bg-purple-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                            <i class='fas fa-plus mr-2'></i>
+                                            <span>Add Subject</span>
+                                        </a>
+                                        <a href="#" onclick="confirmDelete(<?php echo $row['ClassID']; ?>)" class='bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
                                             <i class='fas fa-trash mr-2'></i>
                                             <span>Delete</span>
-                                        </a>
-                                        <!-- Button to update activation status -->
-                                        <a href="#" onclick="confirmUpdateStatus(<?php echo $row['UserID']; ?>, '<?php echo $row['ActivationStatus']; ?>')" class='bg-purple-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
-                                            <i class='fas fa-sync-alt mr-2'></i>
-                                            <span>Status</span>
-                                        </a>
-                                        <a href="<?php echo $baseUrl; ?>public/manage_users/manage_users_reset_password.php?id=<?php echo $row['UserID']; ?>" class="bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm">
-                                            <i class="fas fa-key mr-2"></i>
-                                            <span>Reset Password</span>
                                         </a>
                                     </td>
                                 </tr>
@@ -134,7 +132,7 @@ $errors = array();
                             if ($result->num_rows === 0) {
                             ?>
                                 <tr>
-                                    <td colspan="6" class="py-2 text-center">No data found.</td>
+                                    <td colspan="7" class="py-2 text-center">No data found.</td>
                                 </tr>
                             <?php
                             }
@@ -210,8 +208,8 @@ $errors = array();
 </div>
 <!-- End Main Content -->
 <script>
-    // Function to show a confirmation dialog
-    function confirmDelete(userID) {
+    // Function to show a confirmation dialog for deletion
+    function confirmDelete(classID) {
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -222,37 +220,7 @@ $errors = array();
         }).then((result) => {
             if (result.isConfirmed) {
                 // If the user confirms, redirect to the delete page
-                window.location.href = `manage_users_delete.php?id=${userID}`;
-            }
-        });
-    }
-    // Function to show a confirmation dialog for updating status
-    function confirmUpdateStatus(userID, currentStatus) {
-        let newStatus;
-        let buttonText;
-
-        if (currentStatus === 'pending') {
-            newStatus = 'active';
-            buttonText = 'Activate';
-        } else if (currentStatus === 'active') {
-            newStatus = 'disabled';
-            buttonText = 'Disable';
-        } else {
-            newStatus = 'active'; // You can set the default status here
-            buttonText = 'Activate';
-        }
-
-        Swal.fire({
-            title: 'Update Activation Status',
-            text: `Change status from ${currentStatus} to ${newStatus}?`,
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonText: buttonText,
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If the user confirms, redirect to the users status page
-                window.location.href = `manage_users_change_status.php?id=${userID}`;
+                window.location.href = `manage_classes_delete.php?id=${classID}`;
             }
         });
     }
