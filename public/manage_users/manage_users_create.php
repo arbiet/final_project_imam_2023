@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Generate User ID and check if it already exists in the database
         $user_id = generateRandomUserID();
 
-        $query = "SELECT * FROM users WHERE UserID = ? LIMIT 1";
+        $query = "SELECT * FROM Users WHERE UserID = ? LIMIT 1";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('s', $user_id);
         $stmt->execute();
@@ -205,7 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         function getRoles($conn)
                         {
                             $roles = array();
-                            $query = "SELECT RoleID, RoleName FROM Role";
+                            $query = "SELECT RoleID, RoleName FROM Roles";
                             $result = $conn->query($query);
 
                             if (

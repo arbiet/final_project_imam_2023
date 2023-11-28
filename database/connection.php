@@ -24,7 +24,7 @@ $baseLogoUrl = "http://localhost/final_project_imam_2023/static/logo.png";
 
 function insertLogActivity($conn, $userID, $activityDescription)
 {
-    $query = "INSERT INTO LogActivity (UserID, ActivityDescription, ActivityTimestamp) VALUES (?, ?, NOW())";
+    $query = "INSERT INTO LogActivities (UserID, ActivityDescription, ActivityTimestamp) VALUES (?, ?, NOW())";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('is', $userID, $activityDescription);
     $stmt->execute();

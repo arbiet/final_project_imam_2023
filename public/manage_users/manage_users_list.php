@@ -72,7 +72,7 @@ $errors = array();
                             $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
                             $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             $query = "SELECT u.UserID, u.Username, u.Email, r.RoleName, u.LastLogin FROM Users u
-                                      LEFT JOIN Role r ON u.RoleID = r.RoleID
+                                      LEFT JOIN Roles r ON u.RoleID = r.RoleID
                                       WHERE u.Username LIKE '%$searchTerm%' OR u.Email LIKE '%$searchTerm%'
                                       LIMIT 15 OFFSET " . ($page - 1) * 15;
                             $result = $conn->query($query);

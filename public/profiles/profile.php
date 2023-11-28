@@ -7,8 +7,8 @@ include_once('../components/header.php');
 $errors = array();
 // Retrieve user information from the database
 $user_id = $_SESSION['UserID']; // Assuming 'UserID' is the correct session key
-$select_query = "SELECT Users.*, Role.RoleName FROM Users
-                LEFT JOIN Role ON Users.RoleID = Role.RoleID
+$select_query = "SELECT Users.*, Roles.RoleName FROM Users
+                LEFT JOIN Roles ON Users.RoleID = Roles.RoleID
                 WHERE Users.UserID = ?";
 $select_stmt = $conn->prepare($select_query);
 $select_stmt->bind_param('i', $user_id);

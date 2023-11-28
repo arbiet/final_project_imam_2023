@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
     $userID = $_GET['id'];
     $query = "SELECT u.UserID, u.Username, u.Email, r.RoleName, u.DateOfBirth, u.Gender, u.Address, u.PhoneNumber, u.RoleID, u.AccountCreationDate, u.LastLogin, u.AccountStatus, u.ActivationStatus
               FROM Users u
-              LEFT JOIN Role r ON u.RoleID = r.RoleID
+              LEFT JOIN Roles r ON u.RoleID = r.RoleID
               WHERE u.UserID = $userID";
     $result = $conn->query($query);
 

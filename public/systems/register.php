@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $default_profilepictureult = 'default.png'; // default
 
     // Check if the username already exists
-    $query = "SELECT * FROM users WHERE username=? LIMIT 1";
+    $query = "SELECT * FROM Users WHERE username=? LIMIT 1";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $username);
     $stmt->execute();
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Check if the email already exists
-    $query = "SELECT * FROM users WHERE email=? LIMIT 1";
+    $query = "SELECT * FROM Users WHERE email=? LIMIT 1";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = generateRandomUserID();
 
     // Periksa apakah User ID sudah ada dalam database
-    $query = "SELECT * FROM users WHERE UserID = ? LIMIT 1";
+    $query = "SELECT * FROM Users WHERE UserID = ? LIMIT 1";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $user_id);
     $stmt->execute();
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // If there are no errors, proceed with registration
     if (count($errors) === 0) {
         // Prepare and execute a query to insert a new user record
-        $query = "INSERT INTO users (UserID, username, email, password, RoleID, fullname, ProfilePictureURL) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO Users (UserID, username, email, password, RoleID, fullname, ProfilePictureURL) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('sssssss', $user_id, $username, $email, $hashed_password, $default_role, $fullname, $default_profilepictureult);
 
