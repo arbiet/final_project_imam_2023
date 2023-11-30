@@ -29,7 +29,7 @@
             echo '
             <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
                 <i class="fas fa-user-cog mr-3"></i>
-                <a href="../manage_users/manage_users_list.php">Manage Users</a>
+                <a href="../manage_users/manage_users_list.php">Users</a>
             </li>
             ';
         }
@@ -40,7 +40,7 @@
             echo '
             <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
                 <i class="fa-solid fa-door-closed mr-3"></i>
-                <a href="../manage_classes/manage_classes_list.php">Manage Classes</a>
+                <a href="../manage_classes/manage_classes_list.php">Classes</a>
             </li>
             ';
         }
@@ -51,7 +51,7 @@
             echo '
             <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
                 <i class="fa-solid fa-shield-halved mr-3"></i>
-                <a href="../manage_roles/manage_roles_list.php">Manage Roles</a>
+                <a href="../manage_roles/manage_roles_list.php">Roles</a>
             </li>
             ';
         }
@@ -62,7 +62,7 @@
             echo '
             <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
                 <i class="fa-solid fa-chalkboard-user mr-3"></i>
-                <a href="../manage_teachers/manage_teachers_list.php">Manage Teacher</a>
+                <a href="../manage_teachers/manage_teachers_list.php">Teacher</a>
             </li>
             ';
         }
@@ -73,7 +73,7 @@
             echo '
             <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
                 <i class="fa-solid fa-users mr-3"></i>
-                <a href="../manage_students/manage_students_list.php">Manage Students</a>
+                <a href="../manage_students/manage_students_list.php">Students</a>
             </li>
             ';
         }

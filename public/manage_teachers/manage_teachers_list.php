@@ -59,6 +59,7 @@ $errors = array();
                             <tr>
                                 <th class="text-left">No</th>
                                 <th class="text-left">NIP</th>
+                                <th class="text-left">Fullname</th>
                                 <th class="text-left">Academic Degree</th>
                                 <th class="text-left">Education Level</th>
                                 <th class="text-left">Employment Status</th>
