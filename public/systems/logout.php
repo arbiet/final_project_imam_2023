@@ -1,6 +1,6 @@
 <?php
-include_once('../components/header.php');
 session_start();
+include_once('../components/header.php');
 require_once('../../database/connection.php');
 
 // Check if the user is logged in

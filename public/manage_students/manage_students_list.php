@@ -114,16 +114,13 @@ $errors = array();
                   <!-- Add this column for Class -->
                   <td class='py-2'>
                     <a href="<?php echo $baseUrl; ?>public/manage_students/manage_students_detail.php?id=<?php echo $row['StudentID'] ?>" class='bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
-                      <i class='fas fa-eye mr-2'></i>
-                      <span>Detail</span>
+                      <i class='fas fa-eye'></i>
                     </a>
                     <a href="<?php echo $baseUrl; ?>public/manage_students/manage_students_update.php?id=<?php echo $row['StudentID'] ?>" class='bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
-                      <i class='fas fa-edit mr-2'></i>
-                      <span>Edit</span>
+                      <i class='fas fa-edit'></i>
                     </a>
                     <a href="#" onclick="confirmDelete(<?php echo $row['StudentID']; ?>)" class='bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
-                      <i class='fas fa-trash mr-2'></i>
-                      <span>Delete</span>
+                      <i class='fas fa-trash'></i>
                     </a>
                   </td>
                 </tr>

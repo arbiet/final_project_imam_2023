@@ -39,20 +39,6 @@ if (isset($_GET['id'])) {
       $studentsData[] = $row;
     }
   }
-  // Query to retrieve the associated subjects for the selected class
-  $query = "SELECT * FROM ClassSubjects
-          INNER JOIN Subjects ON ClassSubjects.SubjectID = Subjects.SubjectID
-          WHERE ClassSubjects.ClassID = $classID";
-
-  $result = $conn->query($query);
-
-  $subjectsData = array();
-
-  if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-      $subjectsData[] = $row;
-    }
-  }
 }
 
 ?>
@@ -103,56 +89,6 @@ if (isset($_GET['id'])) {
               <p><strong>Academic Year:</strong> <?php echo $classData['AcademicYear']; ?></p>
               <p><strong>Class Code:</strong> <?php echo $classData['ClassCode']; ?></p>
             </div>
-
-            <!-- Associated Subjects -->
-            <?php if (!empty($subjectsData)) : ?>
-              <div class="mt-4 bg-white shadow-md p-4 rounded-md">
-                <h3 class="text-lg font-semibold text-gray-800">Subjects in this Class</h3>
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-100">
-                    <tr>
-                      <th class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject Name</th>
-                      <th class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Difficulty Level</th>
-                      <th class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teaching Method</th>
-                      <th class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration Hours</th>
-                      <th class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Curriculum Framework</th>
-                      <th class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
-                    <?php foreach ($subjectsData as $subject) : ?>
-                      <tr>
-                        <td class="px-2 py-2 whitespace-nowrap">
-                          <?php echo $subject['SubjectName']; ?>
-                        </td>
-                        <td class="px-2 py-2 whitespace-nowrap">
-                          <?php echo $subject['DifficultyLevel']; ?>
-                        </td>
-                        <td class="px-2 py-2 whitespace-nowrap">
-                          <?php echo $subject['TeachingMethod']; ?>
-                        </td>
-                        <td class="px-2 py-2 whitespace-nowrap">
-                          <?php echo $subject['DurationHours']; ?>
-                        </td>
-                        <td class="px-2 py-2 whitespace-nowrap">
-                          <?php echo $subject['CurriculumFramework']; ?>
-                        </td>
-                        <td class="px-2 py-2 whitespace-nowrap">
-                          <a href="manage_classes_remove_subject.php?subject_id=<?php echo $subject['SubjectID']; ?>&class_id=<?php echo $classID; ?>" class="text-red-500 hover:text-red-700">
-                            <i class="fas fa-trash"></i>
-                            <span>Delete</span>
-                          </a>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
-              </div>
-            <?php else : ?>
-              <div class="bg-white shadow-md p-4 rounded-md mt-4">
-                <p>No subjects in this class.</p>
-              </div>
-            <?php endif; ?>
 
             <!-- List of Students in the Class -->
             <?php if (!empty($studentsData)) : ?>

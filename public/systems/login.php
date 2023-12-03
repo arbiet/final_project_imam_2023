@@ -11,7 +11,7 @@ $errors = array();
 // Check if the user is already logged in
 if (isset($_SESSION['UserID'])) {
     // If user is already logged in, redirect to dashboard
-    header('Location: systems/dashboard.php');
+    header('Location: dashboard.php');
     exit();
 }
 
@@ -70,7 +70,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(function(){
-                    window.location.href = "../systems/dashboard.php";
+                    var role = "dashboard.php"; // Default dashboard
+                    switch(' . $_SESSION['RoleID'] . ') {
+                        case 1:
+                            role = "dashboard_admin.php";
+                            break;
+                        case 2:
+                            role = "dashboard_teacher.php";
+                            break;
+                        case 3:
+                            role = "dashboard_student.php";
+                            break;
+                        case 4:
+                            role = "dashboard_counselor.php";
+                            break;
+                    }
+                    window.location.href = "../systems/" + role;
                 });
             </script>';
             exit();

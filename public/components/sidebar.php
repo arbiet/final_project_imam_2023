@@ -77,6 +77,51 @@
             </li>
             ';
         }
+        if ($_SESSION['RoleID'] === 1 or $_SESSION['RoleID'] === 2) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-trophy mr-3"></i>
+                <a href="../manage_master_achievements/manage_master_achievements_list.php">Achievements</a>
+            </li>
+            ';
+        }
+        if ($_SESSION['RoleID'] === 1 or $_SESSION['RoleID'] === 2) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-user-graduate mr-3"></i>
+                <a href="../manage_student_achievements/manage_student_achievements_list.php">Student Achievements</a>
+            </li>
+            ';
+        }
+        if ($_SESSION['RoleID'] === 1 or $_SESSION['RoleID'] === 2) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-skull-crossbones mr-3"></i>
+                <a href="../manage_master_violations/manage_master_violations_list.php">Violations</a>
+            </li>
+            ';
+        }
+        if ($_SESSION['RoleID'] === 1 or $_SESSION['RoleID'] === 2) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-user-injured mr-3"></i>
+                <a href="../manage_student_violations/manage_student_violations_list.php">Student Violations</a>
+            </li>
+            ';
+        }
+        if ($_SESSION['RoleID'] === 1 or $_SESSION['RoleID'] === 2) {
+            // Menu "Manage Users" hanya ditampilkan jika peran pengguna adalah "Admin"
+            echo '
+            <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-person-circle-exclamation mr-3"></i>
+                <a href="../manage_master_violationhandlings/manage_master_violationhandlings_list.php">Violations Handlings</a>
+            </li>
+            ';
+        }
         ?>
         <?php
         if ($_SESSION['RoleID'] === 1) {
