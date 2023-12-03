@@ -75,7 +75,10 @@ if ($conn->connect_error) {
 
         <input type="submit" value="Tambah">
     </form>
-
+    <!-- Add this button above the table -->
+    <form action="export_csv.php" method="POST">
+        <input type="submit" name="export" value="Export to CSV">
+    </form>
     <?php
     // Query untuk mengambil data dari tabel data_pelanggaran dan tabel terkait
     $sql_pelanggaran = "SELECT dp.id, ds.nama AS nama_siswa, mp.jenis_pelanggaran, mp.pelanggaran, mp.poin, dp.tanggal, dp.jam FROM data_pelanggaran dp
@@ -107,5 +110,6 @@ if ($conn->connect_error) {
     // Menutup koneksi
     $conn->close();
     ?>
+
 
 </html>

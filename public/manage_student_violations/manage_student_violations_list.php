@@ -60,6 +60,7 @@ $errors = array();
                                 <th class="text-left py-2">Student Name</th>
                                 <th class="text-left py-2">Violation Name</th>
                                 <th class="text-left py-2">Violation Type</th>
+                                <th class="text-left py-2">Date Time</th>
                                 <th class="text-left py-2">Points</th>
                                 <th class="text-left py-2">Action</th>
                             </tr>
@@ -101,8 +102,9 @@ $errors = array();
                                 <tr>
                                     <td class="py-2"><?php echo $no++; ?></td>
                                     <td class="py-2"><?php echo $row['StudentName']; ?></td>
-                                    <td class="py-2"><?php echo $row['ViolationName']; ?></td>
+                                    <td class="py-2"><?php echo mb_strimwidth($row['ViolationName'], 0, 20, '...'); ?></td>
                                     <td class="py-2"><?php echo $row['ViolationType']; ?></td>
+                                    <td class="py-2"><?php echo $row['Date']; ?> - <?php echo $row['Time']; ?></td>
                                     <td class="py-2"><?php echo $row['Points']; ?></td>
                                     <td class='py-2'>
                                         <a href="<?php echo $baseUrl; ?>public/manage_student_violations/manage_student_violations_detail.php?id=<?php echo $row['StudentViolationID'] ?>" class='bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>

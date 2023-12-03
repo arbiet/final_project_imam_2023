@@ -59,8 +59,7 @@ $errors = array();
                                 <th class="text-left py-2">No</th>
                                 <th class="text-left py-2">Student Name</th>
                                 <th class="text-left py-2">Achievement Name</th>
-                                <th class="text-left py-2">Master Achievement Name</th>
-                                <th class="text-left py-2">Achievement Type</th>
+                                <th class="text-left py-2">Date Time</th>
                                 <th class="text-left py-2">Points</th>
                                 <th class="text-left py-2">Action</th>
                             </tr>
@@ -105,8 +104,7 @@ $errors = array();
                                     <td class="py-2"><?php echo $no++; ?></td>
                                     <td class="py-2"><?php echo $row['StudentName']; ?></td>
                                     <td class="py-2"><?php echo $row['AchievementName']; ?></td>
-                                    <td class="py-2"><?php echo $row['MasterAchievementName']; ?></td>
-                                    <td class="py-2"><?php echo $row['AchievementType']; ?></td>
+                                    <td class="py-2"><?php echo $row['Date']; ?> - <?php echo $row['Time']; ?></td>
                                     <td class="py-2"><?php echo $row['Points']; ?></td>
                                     <td class='py-2'>
                                         <a href="<?php echo $baseUrl; ?>public/manage_student_achievements/manage_student_achievements_detail.php?id=<?php echo $row['StudentAchievementID'] ?>" class='bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
