@@ -14,7 +14,7 @@ $selectedSemester = isset($_GET['semester']) ? intval($_GET['semester']) : null;
 // Validate the selected semester
 if ($selectedSemester != 1 && $selectedSemester != 2) {
     // Handle invalid semester parameter (redirect or display an error message)
-    header("Location: manage_student_violationhandlings_list.php");
+    header("Location: manage_student_violationhandlings_list.php?year=2023&semester=1");
     exit();
 }
 
@@ -22,12 +22,27 @@ if ($selectedSemester != 1 && $selectedSemester != 2) {
 $startMonth = ($selectedSemester == 1) ? 1 : 7;
 $endMonth = ($selectedSemester == 1) ? 6 : 12;
 
+// Calculate the start and end months for the previous semester
+$prevSemester = ($selectedSemester == 1) ? 2 : 1;
+$prevStartMonth = ($prevSemester == 1) ? 1 : 7;
+$prevEndMonth = ($prevSemester == 1) ? 6 : 12;
+
 // Construct the SQL query to get the total points for each student (Violations and Achievements)
 $query = "SELECT Students.StudentID,
                  Students.StudentNumber,
                  Users.FullName AS StudentName,
-                 SUM(MasterViolations.Points) AS TotalPointsViolations,
-                 SUM(MasterAchievements.Points) AS TotalPointsAchievements
+                 SUM(CASE WHEN YEAR(StudentViolations.Date) = $selectedYear
+                           AND MONTH(StudentViolations.Date) BETWEEN $startMonth AND $endMonth
+                           THEN MasterViolations.Points ELSE 0 END) AS TotalPointsViolations,
+                 SUM(CASE WHEN YEAR(StudentAchievements.Date) = $selectedYear
+                           AND MONTH(StudentAchievements.Date) BETWEEN $startMonth AND $endMonth
+                           THEN MasterAchievements.Points ELSE 0 END) AS TotalPointsAchievements,
+                 SUM(CASE WHEN YEAR(StudentViolations.Date) = $selectedYear - 1
+                           AND MONTH(StudentViolations.Date) BETWEEN $prevStartMonth AND $prevEndMonth
+                           THEN MasterViolations.Points ELSE 0 END) AS PrevTotalPointsViolations,
+                 SUM(CASE WHEN YEAR(StudentAchievements.Date) = $selectedYear - 1
+                           AND MONTH(StudentAchievements.Date) BETWEEN $prevStartMonth AND $prevEndMonth
+                           THEN MasterAchievements.Points ELSE 0 END) AS PrevTotalPointsAchievements
           FROM Students
           JOIN Users ON Students.UserID = Users.UserID
           LEFT JOIN StudentViolations ON Students.StudentID = StudentViolations.StudentID
@@ -38,8 +53,13 @@ $query = "SELECT Students.StudentID,
                  AND MONTH(StudentViolations.Date) BETWEEN $startMonth AND $endMonth)
              OR (YEAR(StudentAchievements.Date) = $selectedYear
                  AND MONTH(StudentAchievements.Date) BETWEEN $startMonth AND $endMonth)
+             OR (YEAR(StudentViolations.Date) = $selectedYear - 1
+                 AND MONTH(StudentViolations.Date) BETWEEN $prevStartMonth AND $prevEndMonth)
+             OR (YEAR(StudentAchievements.Date) = $selectedYear - 1
+                 AND MONTH(StudentAchievements.Date) BETWEEN $prevStartMonth AND $prevEndMonth)
           GROUP BY Students.StudentID
-          HAVING (TotalPointsViolations > 0 OR TotalPointsAchievements > 0)"; // Exclude students with no points
+          HAVING (TotalPointsViolations > 0 OR TotalPointsAchievements > 0
+                  OR PrevTotalPointsViolations > 0 OR PrevTotalPointsAchievements > 0)"; // Exclude students with no points
 
 $result = mysqli_query($conn, $query);
 
@@ -97,6 +117,8 @@ $result = mysqli_query($conn, $query);
                                 <th class="py-2 px-4 border-b">Student Name</th>
                                 <th class="py-2 px-4 border-b">Total Points (Violations)</th>
                                 <th class="py-2 px-4 border-b">Total Points (Achievements)</th>
+                                <th class="py-2 px-4 border-b">Prev Total Points (Violations)</th>
+                                <th class="py-2 px-4 border-b">Prev Total Points (Achievements)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,9 +126,11 @@ $result = mysqli_query($conn, $query);
                             while ($row = mysqli_fetch_assoc($result)) {
                                 echo '<tr>';
                                 echo '<td class="py-2 px-4 border-b">' . $row['StudentNumber'] . '</td>';
-                                echo '<td class="py-2 px-4 border-b">' . $row['StudentName'] . '</td>';
+                                echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $row['StudentID'] . '">' . $row['StudentName'] . '</a></td>';
                                 echo '<td class="py-2 px-4 border-b">' . $row['TotalPointsViolations'] . '</td>';
                                 echo '<td class="py-2 px-4 border-b">' . $row['TotalPointsAchievements'] . '</td>';
+                                echo '<td class="py-2 px-4 border-b">' . $row['PrevTotalPointsViolations'] . '</td>';
+                                echo '<td class="py-2 px-4 border-b">' . $row['PrevTotalPointsAchievements'] . '</td>';
                                 echo '</tr>';
                             }
                             ?>

@@ -100,7 +100,7 @@
             echo '
             <li class="px-6 py-4 hover-bg-gray-700 cursor-pointer space-x-2 flex items-center">
                 <i class="fa-solid fa-user-injured mr-3"></i>
-                <a href="../manage_student_violationhandlings/manage_student_violationhandlings_list.php">Student Violation Handlings</a>
+                <a href="../manage_student_violationhandlings/manage_student_violationhandlings_list.php?year=2023&semester=1">Student Violation Handlings</a>
             </li>
             ';
         }
