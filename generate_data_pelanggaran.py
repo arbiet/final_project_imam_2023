@@ -26,7 +26,7 @@ siswa_ids = [row[0] for row in cursor.fetchall()]
 # Generate data for StudentViolations
 data_pelanggaran = []
 for siswa_id in siswa_ids:
-    num_pelanggaran = random.randint(0, 10)
+    num_pelanggaran = random.randint(0, 8)
     pelanggaran_sample = random.sample(pelanggaran_ids, num_pelanggaran)
     total_pelanggaran_poin = 0
 
@@ -38,7 +38,7 @@ for siswa_id in siswa_ids:
             pelanggaran_poin = result[0]
             total_pelanggaran_poin += pelanggaran_poin
 
-            if total_pelanggaran_poin > 250:
+            if total_pelanggaran_poin > 150:
                 break
 
             today = datetime.datetime.now()
