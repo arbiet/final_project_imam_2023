@@ -222,29 +222,6 @@ $result = mysqli_query($conn, $query);
                             </tbody>
                         </table>
                         <!-- End Display Total Points (Violations and Achievements) -->
-                        <?php
-                        // Query to get MasterViolationHandlings based on AllPrevTotalDifference
-                        echo '<h2 class="text-xl font-semibold mb-2">Handling Information Based on AllPrevTotalDifference</h2>';
-                        echo '<ul>';
-                        foreach ($studentData as $studentInfo) {
-                            // Perform a query to get the MasterViolationHandlings based on AllPrevTotalDifference
-                            $difference = $studentInfo['AllPrevTotalDifference'];
-                            $queryHandling = "SELECT * FROM MasterViolationHandlings WHERE $difference BETWEEN ScoreRangeBottom AND ScoreRangeTop";
-                            $resultHandling = mysqli_query($conn, $queryHandling);
-
-                            // Output the handling information
-                            while ($handlingRow = mysqli_fetch_assoc($resultHandling)) {
-                                echo '<li>';
-                                echo "{$handlingRow['ViolationCategory']} ({$handlingRow['FollowUpAction']}) = {$handlingRow['HandlingID']}";
-                                echo '</li>';
-                            }
-
-                            // Free the result set
-                            mysqli_free_result($resultHandling);
-                        }
-                        echo '</ul>';
-
-                        ?>
                     </div>
                     <!-- End Content -->
                 </div>
