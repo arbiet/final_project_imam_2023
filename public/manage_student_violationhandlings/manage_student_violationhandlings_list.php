@@ -13,7 +13,20 @@ $studentData = array();
 // Get the selected year and semester from the URL parameters
 $selectedYear = isset($_GET['year']) ? intval($_GET['year']) : null;
 $selectedSemester = isset($_GET['semester']) ? intval($_GET['semester']) : null;
+// Function to check if handling is needed
+function checkHandlingNeeded2($difference)
+{
+    global $conn;
 
+    $query = "SELECT HandlingID FROM MasterViolationHandlings WHERE $difference BETWEEN ScoreRangeBottom AND ScoreRangeTop";
+    $result = mysqli_query($conn, $query);
+
+    $handlingNeeded = mysqli_num_rows($result) > 0;
+
+    mysqli_free_result($result);
+
+    return $handlingNeeded;
+}
 // Validate the selected semester
 if ($selectedSemester != 1 && $selectedSemester != 2) {
     // Handle invalid semester parameter (redirect or display an error message)
@@ -175,29 +188,57 @@ $result = mysqli_query($conn, $query);
 
                                     return $handlingNeeded;
                                 }
+                                // Initialize arrays
+                                $DataTraining = array();
+                                $DataTesting = array();
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $studentInfo = array(
-                                        'StudentID' => $row['StudentID'],
-                                        'StudentName' => $row['StudentName'],
-                                        'StudentNumber' => $row['StudentNumber'],
-                                        'AllPrevTotalPointViolations' => $row['AllPrevTotalPointViolations'],
-                                        'AllPrevTotalViolations' => $row['AllPrevTotalViolations'],
-                                        'AllPrevTotalPointAchievements' => $row['AllPrevTotalPointAchievements'],
-                                        'AllPrevTotalAchievements' => $row['AllPrevTotalAchievements'],
-                                        'AllPrevTotalDifference' => $row['AllPrevTotalDifference'],
-                                        'PrevTotalPointViolations' => $row['PrevTotalPointViolations'],
-                                        'PrevTotalViolations' => $row['PrevTotalViolations'],
-                                        'PrevTotalPointAchievements' => $row['PrevTotalPointAchievements'],
-                                        'PrevTotalAchievements' => $row['PrevTotalAchievements'],
-                                        'TotalPointViolations' => $row['TotalPointViolations'],
-                                        'TotalViolations' => $row['TotalViolations'],
-                                        'TotalPointAchievements' => $row['TotalPointAchievements'],
-                                        'TotalAchievements' => $row['TotalAchievements'],
-                                        'TotalDifference' => $row['TotalDifference'],
-                                    );
 
-                                    // Add the student information array to the main array
-                                    $studentData[] = $studentInfo;
+                                // For TrainingData table
+                                $trainingSelectQuery = "SELECT * FROM TrainingData WHERE StudentID = '$row[StudentID]'";
+                                $trainingResult = mysqli_query($conn, $trainingSelectQuery);
+
+                                if (mysqli_num_rows($trainingResult) > 0) {
+                                    // Update the existing record
+                                    $trainingUpdateQuery = "UPDATE TrainingData SET
+                                                            AllPrevTotalPointViolations = '$row[AllPrevTotalPointViolations]',
+                                                            AllPrevTotalViolations = '$row[AllPrevTotalViolations]',
+                                                            AllPrevTotalPointAchievements = '$row[AllPrevTotalPointAchievements]',
+                                                            AllPrevTotalAchievements = '$row[AllPrevTotalAchievements]',
+                                                            AllPrevTotalDifference = '$row[AllPrevTotalDifference]'
+                                                            WHERE StudentID = '$row[StudentID]'";
+                                    mysqli_query($conn, $trainingUpdateQuery);
+                                } elseif ($row['AllPrevTotalDifference'] > 0) {
+                                    // Insert the new record only if AllPrevTotalDifference is greater than or equal to 0
+                                    $trainingInsertQuery = "INSERT INTO TrainingData (StudentID, AllPrevTotalPointViolations, AllPrevTotalViolations, AllPrevTotalPointAchievements, AllPrevTotalAchievements, AllPrevTotalDifference)
+                                                            VALUES ('$row[StudentID]', '$row[AllPrevTotalPointViolations]', '$row[AllPrevTotalViolations]', '$row[AllPrevTotalPointAchievements]', '$row[AllPrevTotalAchievements]', '$row[AllPrevTotalDifference]')";
+                                    mysqli_query($conn, $trainingInsertQuery);
+                                }
+
+                                // For TestingData table
+                                $testingSelectQuery = "SELECT * FROM TestingData WHERE StudentID = '$row[StudentID]'";
+                                $testingResult = mysqli_query($conn, $testingSelectQuery);
+
+                                if (mysqli_num_rows($testingResult) > 0) {
+                                    // Update the existing record
+                                    $testingUpdateQuery = "UPDATE TestingData SET
+                                                            PrevTotalPointViolations = '$row[PrevTotalPointViolations]',
+                                                            PrevTotalViolations = '$row[PrevTotalViolations]',
+                                                            PrevTotalPointAchievements = '$row[PrevTotalPointAchievements]',
+                                                            PrevTotalAchievements = '$row[PrevTotalAchievements]',
+                                                            TotalPointViolations = '$row[TotalPointViolations]',
+                                                            TotalViolations = '$row[TotalViolations]',
+                                                            TotalPointAchievements = '$row[TotalPointAchievements]',
+                                                            TotalAchievements = '$row[TotalAchievements]',
+                                                            TotalDifference = '$row[TotalDifference]'
+                                                            WHERE StudentID = '$row[StudentID]'";
+                                    mysqli_query($conn, $testingUpdateQuery);
+                                } elseif ($row['TotalDifference'] > 0) {
+                                    // Insert the new record only if TotalDifference is greater than or equal to 0
+                                    $testingInsertQuery = "INSERT INTO TestingData (StudentID, PrevTotalPointViolations, PrevTotalViolations, PrevTotalPointAchievements, PrevTotalAchievements, TotalPointViolations, TotalViolations, TotalPointAchievements, TotalAchievements, TotalDifference)
+                                                            VALUES ('$row[StudentID]', '$row[PrevTotalPointViolations]', '$row[PrevTotalViolations]', '$row[PrevTotalPointAchievements]', '$row[PrevTotalAchievements]', '$row[TotalPointViolations]', '$row[TotalViolations]', '$row[TotalPointAchievements]', '$row[TotalAchievements]', '$row[TotalDifference]')";
+                                    mysqli_query($conn, $testingInsertQuery);
+                                }
+
 
                                     echo '<tr>';
                                     echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $row['StudentID'] . '">' . $row['StudentName'] . ' (' . $row['StudentNumber'] . ')</a></td>';

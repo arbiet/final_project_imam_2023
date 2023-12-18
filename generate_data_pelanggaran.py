@@ -26,7 +26,7 @@ siswa_ids = [row[0] for row in cursor.fetchall()]
 # Generate data for StudentViolations
 data_pelanggaran = []
 for siswa_id in siswa_ids:
-    num_pelanggaran = random.randint(0, 8)
+    num_pelanggaran = random.randint(0, 10)
     pelanggaran_sample = random.sample(pelanggaran_ids, num_pelanggaran)
     total_pelanggaran_poin = 0
 
@@ -61,7 +61,7 @@ for siswa_id in siswa_ids:
 # Generate data for StudentAchievements
 data_prestasi = []
 for siswa_id in siswa_ids:
-    num_prestasi = random.randint(0, 5)
+    num_prestasi = random.randint(0, 1)
     prestasi_sample = random.sample(prestasi_ids, num_prestasi)
 
     for prestasi_id in prestasi_sample:
