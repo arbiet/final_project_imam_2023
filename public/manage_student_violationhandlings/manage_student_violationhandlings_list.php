@@ -9,24 +9,53 @@ $errors = array();
 
 // Initialize an array to store student data
 $studentData = array();
+// Function to fetch MasterViolationHandlings data
+function fetchMasterViolationHandlings() {
+    global $conn;
 
+    // Perform SQL query to fetch data
+    $query = "SELECT * FROM MasterViolationHandlings";
+    $result = mysqli_query($conn, $query);
+
+    // Check if the query was successful
+    if ($result) {
+        // Fetch data as an associative array
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        // Free result set
+        mysqli_free_result($result);
+
+        return $data;
+    } else {
+        // Handle the error
+        echo "Error: " . $query . "<br>" . mysqli_error($connection);
+        return [];
+    }
+}
+function getFollowUpAction($masterViolationHandlings, $totalDifference) {
+    foreach ($masterViolationHandlings as $handling) {
+        $bottomRange = $handling['ScoreRangeBottom'];
+        $topRange = $handling['ScoreRangeTop'];
+
+        // Check if TotalDifference falls within the specified range
+        if ($totalDifference >= $bottomRange && $totalDifference <= $topRange) {
+            return [
+                'ViolationCategory' => $handling['ViolationCategory'],
+                'FollowUpAction' => $handling['FollowUpAction'],
+            ];
+        }
+    }
+
+    // If no match is found, you can return a default or handle it accordingly
+    return [
+        'ViolationCategory' => 'Default Category',
+        'FollowUpAction' => 'Default Action',
+    ];
+}
 // Get the selected year and semester from the URL parameters
 $selectedYear = isset($_GET['year']) ? intval($_GET['year']) : null;
 $selectedSemester = isset($_GET['semester']) ? intval($_GET['semester']) : null;
-// Function to check if handling is needed
-function checkHandlingNeeded2($difference)
-{
-    global $conn;
 
-    $query = "SELECT HandlingID FROM MasterViolationHandlings WHERE $difference BETWEEN ScoreRangeBottom AND ScoreRangeTop";
-    $result = mysqli_query($conn, $query);
-
-    $handlingNeeded = mysqli_num_rows($result) > 0;
-
-    mysqli_free_result($result);
-
-    return $handlingNeeded;
-}
 // Validate the selected semester
 if ($selectedSemester != 1 && $selectedSemester != 2) {
     // Handle invalid semester parameter (redirect or display an error message)
@@ -153,6 +182,100 @@ $result = mysqli_query($conn, $query);
 
                         <!-- Display Total Points (Violations and Achievements) -->
                         <h2 class="text-xl font-semibold mb-2">Total Points for Students (Violations and Achievements)</h2>
+                        <?php
+                        // Initialize arrays
+                        $DataTraining = array();
+                        $DataTesting = array();
+                        // Function to check if handling is needed
+                        function checkHandlingNeeded($difference)
+                        {
+                            // Perform a database query to check if handling is needed based on the difference
+                            // Replace 'your_db_connection' with your actual database connection variable
+                            global $conn;
+
+                            $query = "SELECT HandlingID FROM MasterViolationHandlings WHERE $difference BETWEEN ScoreRangeBottom AND ScoreRangeTop";
+                            $result = mysqli_query($conn, $query);
+
+                            // Check if there is a match in the MasterViolationHandlings table
+                            $handlingNeeded = mysqli_num_rows($result) > 0;
+
+                            // Free the result set
+                            mysqli_free_result($result);
+
+                            return $handlingNeeded;
+                        }
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $totalDif = $row['AllPrevTotalDifference'] + $row['PrevTotalPointAchievements'] + $row['PrevTotalViolations']+ $row['TotalDifference'];
+                            $studentInfo = array(
+                                'StudentID' => $row['StudentID'],
+                                'StudentName' => $row['StudentName'],
+                                'StudentNumber' => $row['StudentNumber'],
+                                'AllPrevTotalPointViolations' => $row['AllPrevTotalPointViolations'],
+                                'AllPrevTotalViolations' => $row['AllPrevTotalViolations'],
+                                'AllPrevTotalPointAchievements' => $row['AllPrevTotalPointAchievements'],
+                                'AllPrevTotalAchievements' => $row['AllPrevTotalAchievements'],
+                                'AllPrevTotalDifference' => $row['AllPrevTotalDifference'],
+                                'PrevTotalPointViolations' => $row['PrevTotalPointViolations'],
+                                'PrevTotalViolations' => $row['PrevTotalViolations'],
+                                'PrevTotalPointAchievements' => $row['PrevTotalPointAchievements'],
+                                'PrevTotalAchievements' => $row['PrevTotalAchievements'],
+                                'TotalPointViolations' => $row['TotalPointViolations'],
+                                'TotalViolations' => $row['TotalViolations'],
+                                'TotalPointAchievements' => $row['TotalPointAchievements'],
+                                'TotalAchievements' => $row['TotalAchievements'],
+                                'TotalDifference' => $totalDif,
+                            );
+
+                            // Add the student information array to the main array
+                            $studentData[] = $studentInfo;
+                            // For TrainingData table
+                            $trainingSelectQuery = "SELECT * FROM TrainingData WHERE StudentID = '$row[StudentID]'";
+                            $trainingResult = mysqli_query($conn, $trainingSelectQuery);
+
+                            if (mysqli_num_rows($trainingResult) > 0) {
+                                // Update the existing record
+                                $trainingUpdateQuery = "UPDATE TrainingData SET
+                                                        AllPrevTotalPointViolations = '$row[AllPrevTotalPointViolations]',
+                                                        AllPrevTotalViolations = '$row[AllPrevTotalViolations]',
+                                                        AllPrevTotalPointAchievements = '$row[AllPrevTotalPointAchievements]',
+                                                        AllPrevTotalAchievements = '$row[AllPrevTotalAchievements]',
+                                                        AllPrevTotalDifference = '$row[AllPrevTotalDifference]'
+                                                        WHERE StudentID = '$row[StudentID]'";
+                                mysqli_query($conn, $trainingUpdateQuery);
+                            } elseif ($row['AllPrevTotalDifference'] > 0) {
+                                // Insert the new record only if AllPrevTotalDifference is greater than or equal to 0
+                                $trainingInsertQuery = "INSERT INTO TrainingData (StudentID, AllPrevTotalPointViolations, AllPrevTotalViolations, AllPrevTotalPointAchievements, AllPrevTotalAchievements, AllPrevTotalDifference)
+                                                        VALUES ('$row[StudentID]', '$row[AllPrevTotalPointViolations]', '$row[AllPrevTotalViolations]', '$row[AllPrevTotalPointAchievements]', '$row[AllPrevTotalAchievements]', '$row[AllPrevTotalDifference]')";
+                                mysqli_query($conn, $trainingInsertQuery);
+                            }
+
+                            // For TestingData table
+                            $testingSelectQuery = "SELECT * FROM TestingData WHERE StudentID = '$row[StudentID]'";
+                            $testingResult = mysqli_query($conn, $testingSelectQuery);
+
+                            if (mysqli_num_rows($testingResult) > 0) {
+                                // Update the existing record
+                                $testingUpdateQuery = "UPDATE TestingData SET
+                                                        PrevTotalPointViolations = '$row[PrevTotalPointViolations]',
+                                                        PrevTotalViolations = '$row[PrevTotalViolations]',
+                                                        PrevTotalPointAchievements = '$row[PrevTotalPointAchievements]',
+                                                        PrevTotalAchievements = '$row[PrevTotalAchievements]',
+                                                        TotalPointViolations = '$row[TotalPointViolations]',
+                                                        TotalViolations = '$row[TotalViolations]',
+                                                        TotalPointAchievements = '$row[TotalPointAchievements]',
+                                                        TotalAchievements = '$row[TotalAchievements]',
+                                                        TotalDifference = '$totalDif'
+                                                        WHERE StudentID = '$row[StudentID]'";
+                                mysqli_query($conn, $testingUpdateQuery);
+                            } elseif ($row['TotalDifference'] > 0) {
+                                // Insert the new record only if TotalDifference is greater than or equal to 0
+                                $testingInsertQuery = "INSERT INTO TestingData (StudentID, PrevTotalPointViolations, PrevTotalViolations, PrevTotalPointAchievements, PrevTotalAchievements, TotalPointViolations, TotalViolations, TotalPointAchievements, TotalAchievements, TotalDifference)
+                                                        VALUES ('$row[StudentID]', '$row[PrevTotalPointViolations]', '$row[PrevTotalViolations]', '$row[PrevTotalPointAchievements]', '$row[PrevTotalAchievements]', '$row[TotalPointViolations]', '$row[TotalViolations]', '$row[TotalPointAchievements]', '$row[TotalAchievements]', '$row[TotalDifference]')";
+                                mysqli_query($conn, $testingInsertQuery);
+                            }
+                        }
+                        ?>
+                        <!-- End Display Total Points (Violations and Achievements) -->
                         <table class="min-w-full bg-white border border-gray-300">
                             <thead>
                                 <tr>
@@ -164,102 +287,82 @@ $result = mysqli_query($conn, $query);
                                     <th class="py-2 px-4 border-b"><?php echo $prevSemester ?>/<?php echo $prevYear ?> <i class="fa-solid fa-trophy"></i></th>
                                     <th class="py-2 px-4 border-b"><?php echo $selectedSemester ?>/<?php echo $selectedYear ?><i class="fa-solid fa-skull-crossbones"></i></th>
                                     <th class="py-2 px-4 border-b"><?php echo $selectedSemester ?>/<?php echo $selectedYear ?><i class="fa-solid fa-trophy"></i></th>
-                                    <th class="py-2 px-4 border-b"><?php echo $selectedSemester ?>/<?php echo $selectedYear ?><i class="fa-solid fa-coins"></i></th>
+                                    <th class="py-2 px-4 border-b"><?php echo $selectedSemester ?>/<?php echo $selectedYear ?><i class="fa-solid fa-coins"></i>(Last)</th>
+                                    <th class="py-2 px-4 border-b">Follow Up Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-
-                                // Function to check if handling is needed
-                                function checkHandlingNeeded($difference)
-                                {
-                                    // Perform a database query to check if handling is needed based on the difference
-                                    // Replace 'your_db_connection' with your actual database connection variable
-                                    global $conn;
-
-                                    $query = "SELECT HandlingID FROM MasterViolationHandlings WHERE $difference BETWEEN ScoreRangeBottom AND ScoreRangeTop";
-                                    $result = mysqli_query($conn, $query);
-
-                                    // Check if there is a match in the MasterViolationHandlings table
-                                    $handlingNeeded = mysqli_num_rows($result) > 0;
-
-                                    // Free the result set
-                                    mysqli_free_result($result);
-
-                                    return $handlingNeeded;
-                                }
-                                // Initialize arrays
-                                $DataTraining = array();
-                                $DataTesting = array();
-                                while ($row = mysqli_fetch_assoc($result)) {
-
-                                // For TrainingData table
-                                $trainingSelectQuery = "SELECT * FROM TrainingData WHERE StudentID = '$row[StudentID]'";
-                                $trainingResult = mysqli_query($conn, $trainingSelectQuery);
-
-                                if (mysqli_num_rows($trainingResult) > 0) {
-                                    // Update the existing record
-                                    $trainingUpdateQuery = "UPDATE TrainingData SET
-                                                            AllPrevTotalPointViolations = '$row[AllPrevTotalPointViolations]',
-                                                            AllPrevTotalViolations = '$row[AllPrevTotalViolations]',
-                                                            AllPrevTotalPointAchievements = '$row[AllPrevTotalPointAchievements]',
-                                                            AllPrevTotalAchievements = '$row[AllPrevTotalAchievements]',
-                                                            AllPrevTotalDifference = '$row[AllPrevTotalDifference]'
-                                                            WHERE StudentID = '$row[StudentID]'";
-                                    mysqli_query($conn, $trainingUpdateQuery);
-                                } elseif ($row['AllPrevTotalDifference'] > 0) {
-                                    // Insert the new record only if AllPrevTotalDifference is greater than or equal to 0
-                                    $trainingInsertQuery = "INSERT INTO TrainingData (StudentID, AllPrevTotalPointViolations, AllPrevTotalViolations, AllPrevTotalPointAchievements, AllPrevTotalAchievements, AllPrevTotalDifference)
-                                                            VALUES ('$row[StudentID]', '$row[AllPrevTotalPointViolations]', '$row[AllPrevTotalViolations]', '$row[AllPrevTotalPointAchievements]', '$row[AllPrevTotalAchievements]', '$row[AllPrevTotalDifference]')";
-                                    mysqli_query($conn, $trainingInsertQuery);
-                                }
-
-                                // For TestingData table
-                                $testingSelectQuery = "SELECT * FROM TestingData WHERE StudentID = '$row[StudentID]'";
-                                $testingResult = mysqli_query($conn, $testingSelectQuery);
-
-                                if (mysqli_num_rows($testingResult) > 0) {
-                                    // Update the existing record
-                                    $testingUpdateQuery = "UPDATE TestingData SET
-                                                            PrevTotalPointViolations = '$row[PrevTotalPointViolations]',
-                                                            PrevTotalViolations = '$row[PrevTotalViolations]',
-                                                            PrevTotalPointAchievements = '$row[PrevTotalPointAchievements]',
-                                                            PrevTotalAchievements = '$row[PrevTotalAchievements]',
-                                                            TotalPointViolations = '$row[TotalPointViolations]',
-                                                            TotalViolations = '$row[TotalViolations]',
-                                                            TotalPointAchievements = '$row[TotalPointAchievements]',
-                                                            TotalAchievements = '$row[TotalAchievements]',
-                                                            TotalDifference = '$row[TotalDifference]'
-                                                            WHERE StudentID = '$row[StudentID]'";
-                                    mysqli_query($conn, $testingUpdateQuery);
-                                } elseif ($row['TotalDifference'] > 0) {
-                                    // Insert the new record only if TotalDifference is greater than or equal to 0
-                                    $testingInsertQuery = "INSERT INTO TestingData (StudentID, PrevTotalPointViolations, PrevTotalViolations, PrevTotalPointAchievements, PrevTotalAchievements, TotalPointViolations, TotalViolations, TotalPointAchievements, TotalAchievements, TotalDifference)
-                                                            VALUES ('$row[StudentID]', '$row[PrevTotalPointViolations]', '$row[PrevTotalViolations]', '$row[PrevTotalPointAchievements]', '$row[PrevTotalAchievements]', '$row[TotalPointViolations]', '$row[TotalViolations]', '$row[TotalPointAchievements]', '$row[TotalAchievements]', '$row[TotalDifference]')";
-                                    mysqli_query($conn, $testingInsertQuery);
-                                }
-
-
+                            <?php
+                            // Fetch data from MasterViolationHandlings
+                            $masterViolationHandlings = fetchMasterViolationHandlings();
+                            foreach ($studentData as $studentInfo) {
+                                // Check if TotalDifference is greater than 0
+                                if ($studentInfo['TotalDifference'] > 0) {
                                     echo '<tr>';
-                                    echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $row['StudentID'] . '">' . $row['StudentName'] . ' (' . $row['StudentNumber'] . ')</a></td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $row['AllPrevTotalPointViolations'] . ' (' . $row['AllPrevTotalViolations'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $row['AllPrevTotalPointAchievements'] . ' (' . $row['AllPrevTotalAchievements'] . ')</td>';
+                                    echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $studentInfo['StudentID'] . '">' . $studentInfo['StudentName'] . ' (' . $studentInfo['StudentNumber'] . ')</a></td>';
+                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['AllPrevTotalPointViolations'] . ' (' . $studentInfo['AllPrevTotalViolations'] . ')</td>';
+                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['AllPrevTotalPointAchievements'] . ' (' . $studentInfo['AllPrevTotalAchievements'] . ')</td>';
+
                                     // Check if handling is needed
-                                    $handlingNeeded = checkHandlingNeeded($row['AllPrevTotalDifference']);
+                                    $handlingNeeded = checkHandlingNeeded($studentInfo['AllPrevTotalDifference']);
+
                                     // Output the appropriate icon or cross mark
                                     if ($handlingNeeded) {
-                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-green-500">' . $row['AllPrevTotalDifference'] . ' <i class="fa-solid fa-check"></i></a></td>';
+                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-green-500">' . $studentInfo['AllPrevTotalDifference'] . ' <i class="fa-solid fa-check"></i></a></td>';
                                     } else {
-                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-red-500">' . $row['AllPrevTotalDifference'] . ' <i class="fa-solid fa-times"></i></a></td>';
+                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-red-500">' . $studentInfo['AllPrevTotalDifference'] . ' <i class="fa-solid fa-times"></i></a></td>';
                                     }
-                                    echo '<td class="py-2 px-4 border-b">' . $row['PrevTotalPointViolations'] . ' (' . $row['PrevTotalViolations'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $row['PrevTotalPointAchievements'] . ' (' . $row['PrevTotalAchievements'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $row['TotalPointViolations'] . ' (' . $row['TotalViolations'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $row['TotalPointAchievements'] . ' (' . $row['TotalAchievements'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $row['TotalDifference'] . ' </td>';
+
+                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['PrevTotalPointViolations'] . ' (' . $studentInfo['PrevTotalViolations'] . ')</td>';
+                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['PrevTotalPointAchievements'] . ' (' . $studentInfo['PrevTotalAchievements'] . ')</td>';
+                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['TotalPointViolations'] . ' (' . $studentInfo['TotalViolations'] . ')</td>';
+                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['TotalPointAchievements'] . ' (' . $studentInfo['TotalAchievements'] . ')</td>';
+                                    // Check if handling is needed
+                                    $handlingNeeded = checkHandlingNeeded($studentInfo['TotalDifference']);
+
+                                    // Output the appropriate icon or cross mark
+                                    if ($handlingNeeded) {
+                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-green-500">' . $studentInfo['TotalDifference'] . ' <i class="fa-solid fa-check"></i></a></td>';
+                                    } else {
+                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-red-500">' . $studentInfo['TotalDifference'] . ' <i class="fa-solid fa-times"></i></a></td>';
+                                    }
+                                    echo '<td class="py-2 px-4 border-b">';
+                                    if ($handlingNeeded) {
+                                        $followUpAction = getFollowUpAction($masterViolationHandlings, $studentInfo['TotalDifference']);
+                                        // Set default classes
+                                        $buttonClasses = 'sweet-alert-btn text-white text-xs font-bold py-2 px-4 rounded';
+                                        $iconClasses = 'fas fa-exclamation-circle mr-2';
+
+                                        // Set color based on ViolationCategory
+                                        switch ($followUpAction['ViolationCategory']) {
+                                            case 'Ringan':
+                                                $buttonClasses .= ' bg-green-500'; // Green color for Ringan
+                                                break;
+                                            case 'Sedang':
+                                                $buttonClasses .= ' bg-yellow-500'; // Yellow color for Sedang
+                                                break;
+                                            case 'Berat':
+                                                $buttonClasses .= ' bg-red-500'; // Red color for Berat
+                                                break;
+                                            default:
+                                                $buttonClasses .= ' bg-blue-500'; // Default color for other categories
+                                        }
+
+                                        // Output the button
+                                        echo '<button class="' . $buttonClasses . '" data-student-id="' . $studentInfo['StudentID'] . '" data-category="'.$followUpAction['ViolationCategory'] .'" data-follow-up="'.$followUpAction['FollowUpAction'] .'">
+                                        <i class="' . $iconClasses . '"></i>' . $followUpAction['ViolationCategory'] . '
+                                        </button>';
+
+
+                                    } else {
+                                        echo 'No Action';
+                                    }
+                                    echo '</td>';
+
                                     echo '</tr>';
                                 }
-                                ?>
+                            }
+                            ?>
                             </tbody>
                         </table>
                         <!-- End Display Total Points (Violations and Achievements) -->
@@ -287,6 +390,100 @@ $result = mysqli_query($conn, $query);
             window.location.href = url;
         }
     </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add event listener to all elements with class sweet-alert-btn
+        var buttons = document.querySelectorAll('.sweet-alert-btn');
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Retrieve category from data-category attribute
+                var category = button.getAttribute('data-category');
+                // Retrieve student ID from data-student-id attribute
+                var studentID = button.getAttribute('data-student-id');
+                var followUPing = button.getAttribute('data-follow-up');
+
+                // Make an AJAX request to fetch student data
+                fetchStudentData(studentID, category, followUPing);
+            });
+        });
+
+        function fetchStudentData(studentID, category, followUPing) {
+            // You can use any AJAX library or the native fetch API for the request
+            // Here, I'll use the fetch API for simplicity
+            fetch('fetch_student_data.php?student_id=' + studentID)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Fetched student data:', data);
+
+                    // Format student information into a table
+                    const tableHtml = `
+                    <table class="table-auto">
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2">Violation Category</td>
+                                <td class="border px-4 py-2">${category}</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Student Name</td>
+                                <td class="border px-4 py-2">${data.StudentName}</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Student Number</td>
+                                <td class="border px-4 py-2">${data.StudentNumber}</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Religion</td>
+                                <td class="border px-4 py-2">${data.Religion}</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Parent/Guardian</td>
+                                <td class="border px-4 py-2">${data.ParentGuardianFullName}</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Contact</td>
+                                <td class="border px-4 py-2">${data.ParentGuardianPhoneNumber}</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Email</td>
+                                <td class="border px-4 py-2">${data.ParentGuardianEmail}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    `;
+
+                    // Format Follow-Up Action
+                    const followUpActionHtml = `
+                        <div class="mt-4">
+                            <strong>Follow-Up Action:</strong> ${followUPing}
+                        </div>
+                    `;
+
+                    // Combine table and Follow-Up Action
+                    const contentHtml = tableHtml + followUpActionHtml;
+
+                    // Display Sweet Alert with the formatted table and Follow-Up Action
+                    Swal.fire({
+                        title: 'Follow-Up Action',
+                        html: contentHtml,
+                        icon: 'info'
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching student data:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Failed to fetch student data. Please try again.',
+                        icon: 'error'
+                    });
+                });
+        }
+    });
+</script>
 </body>
 
 </html>
