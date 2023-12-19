@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2023 at 12:14 AM
+-- Generation Time: Dec 19, 2023 at 04:08 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -5659,6 +5659,532 @@ INSERT INTO `Teachers` (`TeacherID`, `NIP`, `AcademicDegree`, `EducationLevel`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `TestingData`
+--
+
+CREATE TABLE `TestingData` (
+  `TestingID` int(11) NOT NULL,
+  `StudentID` int(11) NOT NULL,
+  `PrevTotalPointViolations` int(11) NOT NULL,
+  `PrevTotalViolations` int(11) NOT NULL,
+  `PrevTotalPointAchievements` int(11) NOT NULL,
+  `PrevTotalAchievements` int(11) NOT NULL,
+  `TotalPointViolations` int(11) NOT NULL,
+  `TotalViolations` int(11) NOT NULL,
+  `TotalPointAchievements` int(11) NOT NULL,
+  `TotalAchievements` int(11) NOT NULL,
+  `TotalDifference` int(11) NOT NULL,
+  `NeedViolationHandling` tinyint(1) DEFAULT NULL,
+  `HandlingID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `TestingData`
+--
+
+INSERT INTO `TestingData` (`TestingID`, `StudentID`, `PrevTotalPointViolations`, `PrevTotalViolations`, `PrevTotalPointAchievements`, `PrevTotalAchievements`, `TotalPointViolations`, `TotalViolations`, `TotalPointAchievements`, `TotalAchievements`, `TotalDifference`, `NeedViolationHandling`, `HandlingID`) VALUES
+(3, 3397, 10, 1, 0, 0, 75, 1, 0, 0, 75, NULL, 3),
+(4, 3406, 0, 0, 35, 2, 10, 1, 0, 0, 10, NULL, 1),
+(5, 3413, 10, 1, 15, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(6, 3430, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(7, 3436, 50, 2, 10, 1, 10, 3, 0, 0, 10, NULL, NULL),
+(8, 3438, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(9, 3441, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(10, 3442, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(11, 3450, 0, 0, 0, 0, 150, 1, 0, 0, 150, NULL, NULL),
+(12, 3454, 0, 0, 15, 1, 130, 2, 25, 1, 105, NULL, NULL),
+(13, 3455, 0, 0, 0, 0, 150, 1, 0, 0, 150, NULL, NULL),
+(14, 3459, 0, 0, 0, 0, 30, 1, 20, 1, 10, NULL, NULL),
+(15, 3465, 0, 0, 115, 2, 150, 1, 0, 0, 150, NULL, NULL),
+(16, 3467, 0, 0, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(17, 3469, 0, 0, 75, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(18, 3474, 0, 0, 0, 0, 10, 2, 0, 0, 10, NULL, NULL),
+(19, 3478, 0, 0, 20, 1, 30, 1, 0, 0, 30, NULL, NULL),
+(20, 3493, 0, 0, 0, 0, 100, 1, 20, 1, 80, NULL, NULL),
+(21, 3503, 0, 0, 40, 2, 100, 1, 75, 1, 25, NULL, NULL),
+(22, 3507, 0, 0, 50, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(23, 3509, 0, 0, 0, 0, 30, 1, 0, 0, 30, NULL, NULL),
+(24, 3516, 10, 1, 0, 0, 10, 2, 0, 0, 10, NULL, NULL),
+(25, 3525, 0, 0, 0, 0, 100, 1, 25, 1, 75, NULL, NULL),
+(26, 3526, 0, 0, 0, 0, 10, 2, 0, 0, 10, NULL, NULL),
+(27, 3530, 0, 0, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(28, 3545, 0, 0, 0, 0, 100, 1, 25, 1, 75, NULL, NULL),
+(29, 3547, 10, 1, 15, 1, 30, 1, 0, 0, 30, NULL, NULL),
+(30, 3555, 0, 0, 15, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(31, 3570, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(32, 3596, 0, 0, 0, 0, 40, 1, 15, 1, 25, NULL, NULL),
+(33, 3597, 10, 1, 100, 1, 100, 1, 0, 0, 100, NULL, NULL),
+(34, 3606, 20, 1, 0, 0, 30, 1, 15, 1, 15, NULL, NULL),
+(35, 3609, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(36, 3611, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(37, 3614, 10, 2, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(38, 3632, 0, 0, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(39, 3637, 0, 0, 100, 3, 10, 1, 0, 0, 10, NULL, NULL),
+(40, 3639, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(41, 3645, 0, 0, 0, 0, 10, 2, 0, 0, 10, NULL, NULL),
+(42, 3663, 0, 0, 25, 1, 100, 1, 0, 0, 100, NULL, NULL),
+(43, 3673, 0, 0, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(44, 3675, 0, 0, 10, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(45, 3684, 10, 1, 0, 0, 30, 2, 0, 0, 30, NULL, NULL),
+(46, 3698, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(47, 3722, 0, 0, 20, 1, 20, 1, 0, 0, 20, NULL, NULL),
+(48, 3725, 0, 0, 0, 0, 120, 2, 0, 0, 120, NULL, NULL),
+(49, 3740, 0, 0, 20, 1, 30, 1, 25, 1, 5, NULL, NULL),
+(50, 3743, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(51, 3745, 50, 3, 0, 0, 30, 1, 0, 0, 30, NULL, NULL),
+(52, 3748, 40, 1, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(53, 3760, 0, 0, 85, 2, 100, 1, 0, 0, 100, NULL, NULL),
+(54, 3763, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(55, 3765, 10, 3, 15, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(56, 3777, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(57, 3780, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(58, 3788, 10, 1, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(59, 3790, 0, 0, 55, 3, 100, 1, 0, 0, 100, NULL, NULL),
+(60, 3792, 0, 0, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(61, 3793, 0, 0, 15, 1, 30, 1, 0, 0, 30, NULL, NULL),
+(62, 3803, 0, 0, 20, 1, 75, 1, 0, 0, 75, NULL, NULL),
+(63, 3808, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(64, 3814, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(65, 3817, 30, 2, 0, 0, 40, 1, 25, 1, 15, NULL, NULL),
+(66, 3822, 20, 1, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(67, 3823, 10, 1, 15, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(68, 3826, 0, 0, 0, 0, 30, 1, 0, 0, 30, NULL, NULL),
+(69, 3830, 0, 0, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(70, 3833, 0, 0, 100, 2, 10, 1, 0, 0, 10, NULL, NULL),
+(71, 3836, 10, 1, 0, 0, 50, 2, 0, 0, 50, NULL, NULL),
+(72, 3865, 0, 0, 0, 0, 150, 1, 15, 1, 135, NULL, NULL),
+(73, 3874, 0, 0, 45, 2, 30, 1, 15, 1, 15, NULL, NULL),
+(74, 3878, 0, 0, 25, 1, 115, 2, 100, 1, 15, NULL, NULL),
+(75, 3879, 10, 1, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(76, 3882, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(77, 3887, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(78, 3888, 10, 1, 75, 1, 75, 1, 0, 0, 75, NULL, NULL),
+(79, 3916, 0, 0, 0, 0, 40, 1, 0, 0, 40, NULL, NULL),
+(80, 3922, 0, 0, 125, 2, 100, 1, 0, 0, 100, NULL, NULL),
+(81, 3930, 0, 0, 10, 1, 30, 1, 0, 0, 30, NULL, NULL),
+(82, 3933, 40, 1, 20, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(83, 3943, 0, 0, 45, 2, 100, 1, 0, 0, 100, NULL, NULL),
+(84, 3945, 10, 2, 0, 0, 100, 1, 15, 1, 85, NULL, NULL),
+(85, 3953, 30, 2, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(86, 3961, 10, 2, 50, 1, 75, 1, 0, 0, 75, NULL, NULL),
+(87, 3962, 0, 0, 0, 0, 150, 1, 25, 1, 125, NULL, NULL),
+(88, 3964, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(89, 3976, 10, 1, 0, 0, 20, 1, 15, 1, 5, NULL, NULL),
+(90, 3980, 0, 0, 20, 1, 75, 1, 0, 0, 75, NULL, NULL),
+(91, 3986, 10, 1, 15, 1, 20, 1, 0, 0, 20, NULL, NULL),
+(92, 3987, 0, 0, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(93, 3988, 0, 0, 15, 1, 75, 1, 20, 1, 55, NULL, NULL),
+(94, 3989, 10, 1, 60, 2, 10, 1, 0, 0, 10, NULL, NULL),
+(95, 3991, 0, 0, 0, 0, 150, 1, 0, 0, 150, NULL, NULL),
+(96, 3993, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(97, 3994, 40, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(98, 3995, 0, 0, 100, 2, 20, 1, 0, 0, 20, NULL, NULL),
+(99, 4001, 0, 0, 60, 2, 30, 1, 0, 0, 30, NULL, NULL),
+(100, 4003, 30, 2, 100, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(101, 4008, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(102, 4010, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(103, 4014, 10, 2, 0, 0, 100, 1, 10, 1, 90, NULL, NULL),
+(104, 4017, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(105, 4021, 0, 0, 0, 0, 110, 2, 0, 0, 110, NULL, NULL),
+(106, 4022, 0, 0, 0, 0, 110, 2, 0, 0, 110, NULL, NULL),
+(107, 4026, 0, 0, 20, 1, 100, 1, 0, 0, 100, NULL, NULL),
+(108, 4027, 0, 0, 0, 0, 10, 2, 0, 0, 10, NULL, NULL),
+(109, 4031, 0, 0, 0, 0, 150, 1, 25, 1, 125, NULL, NULL),
+(110, 4034, 10, 1, 0, 0, 110, 2, 0, 0, 110, NULL, NULL),
+(111, 4038, 0, 0, 0, 0, 75, 1, 0, 0, 75, NULL, NULL),
+(112, 4042, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(113, 4047, 0, 0, 0, 0, 150, 1, 0, 0, 150, NULL, NULL),
+(114, 4051, 10, 1, 50, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(115, 4058, 0, 0, 20, 1, 110, 2, 0, 0, 110, NULL, NULL),
+(116, 4062, 10, 1, 25, 1, 30, 2, 25, 1, 5, NULL, NULL),
+(117, 4063, 0, 0, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(118, 4066, 100, 1, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(119, 4075, 10, 1, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(120, 4077, 20, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(121, 4081, 0, 0, 100, 1, 30, 1, 0, 0, 30, NULL, NULL),
+(122, 4083, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(123, 4085, 0, 0, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(124, 4087, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(125, 4089, 10, 2, 0, 0, 75, 1, 0, 0, 75, NULL, NULL),
+(126, 4091, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(127, 4097, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(128, 4098, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(129, 4120, 0, 0, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(130, 4129, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(131, 4132, 0, 0, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(132, 4137, 75, 1, 0, 0, 30, 1, 0, 0, 30, NULL, NULL),
+(133, 4140, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(134, 4141, 0, 0, 75, 1, 100, 1, 25, 1, 75, NULL, NULL),
+(135, 4161, 0, 0, 0, 0, 50, 2, 0, 0, 50, NULL, NULL),
+(136, 4162, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(137, 4173, 0, 0, 0, 0, 150, 1, 0, 0, 150, NULL, NULL),
+(138, 4178, 0, 0, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(139, 4182, 100, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(140, 4184, 0, 0, 100, 2, 10, 1, 0, 0, 10, NULL, NULL),
+(141, 4202, 0, 0, 0, 0, 40, 1, 15, 1, 25, NULL, NULL),
+(142, 4205, 0, 0, 25, 1, 75, 1, 50, 1, 25, NULL, NULL),
+(143, 4206, 0, 0, 45, 2, 100, 1, 25, 1, 75, NULL, NULL),
+(144, 4223, 0, 0, 0, 0, 30, 1, 0, 0, 30, NULL, NULL),
+(145, 4225, 0, 0, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(146, 4231, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(147, 4237, 110, 2, 75, 1, 30, 2, 10, 1, 20, NULL, NULL),
+(148, 4238, 30, 1, 10, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(149, 4250, 0, 0, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(150, 4252, 10, 1, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(151, 4254, 0, 0, 0, 0, 150, 1, 0, 0, 150, NULL, NULL),
+(152, 4259, 0, 0, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(153, 4260, 10, 1, 175, 2, 10, 1, 0, 0, 10, NULL, NULL),
+(154, 4274, 10, 1, 0, 0, 10, 2, 0, 0, 10, NULL, NULL),
+(155, 4276, 0, 0, 65, 2, 100, 1, 25, 1, 75, NULL, NULL),
+(156, 4280, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(157, 4290, 0, 0, 0, 0, 100, 1, 0, 0, 100, NULL, NULL),
+(158, 4295, 10, 1, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(159, 4310, 0, 0, 0, 0, 75, 1, 0, 0, 75, NULL, NULL),
+(160, 4318, 30, 2, 35, 2, 30, 1, 15, 1, 15, NULL, NULL),
+(161, 4319, 0, 0, 0, 0, 150, 1, 20, 1, 130, NULL, NULL),
+(162, 4336, 40, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(163, 4349, 0, 0, 0, 0, 150, 1, 0, 0, 150, NULL, NULL),
+(164, 4355, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(165, 4356, 10, 1, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(166, 4365, 0, 0, 0, 0, 30, 1, 0, 0, 30, NULL, NULL),
+(167, 4373, 0, 0, 0, 0, 75, 1, 0, 0, 75, NULL, NULL),
+(168, 4380, 0, 0, 0, 0, 20, 1, 0, 0, 20, NULL, NULL),
+(169, 4382, 40, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(170, 4385, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(171, 4387, 40, 2, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(172, 4391, 10, 1, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(173, 4393, 0, 0, 0, 0, 50, 2, 0, 0, 50, NULL, NULL),
+(174, 4411, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(175, 4413, 0, 0, 40, 2, 10, 1, 0, 0, 10, NULL, NULL),
+(176, 4423, 75, 1, 0, 0, 30, 1, 0, 0, 30, NULL, NULL),
+(177, 4428, 0, 0, 15, 1, 150, 1, 20, 1, 130, NULL, NULL),
+(178, 4434, 0, 0, 15, 1, 50, 2, 15, 1, 35, NULL, NULL),
+(179, 4438, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(180, 4450, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(181, 4454, 0, 0, 25, 1, 10, 1, 0, 0, 10, NULL, NULL),
+(182, 4456, 0, 0, 40, 2, 75, 1, 65, 2, 10, NULL, NULL),
+(183, 4457, 0, 0, 0, 0, 10, 1, 0, 0, 10, NULL, NULL),
+(184, 4460, 0, 0, 35, 2, 10, 1, 0, 0, 10, NULL, NULL),
+(185, 4464, 0, 0, 0, 0, 30, 1, 0, 0, 30, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TrainingData`
+--
+
+CREATE TABLE `TrainingData` (
+  `TrainingID` int(11) NOT NULL,
+  `StudentID` int(11) NOT NULL,
+  `AllPrevTotalPointViolations` int(11) NOT NULL,
+  `AllPrevTotalViolations` int(11) NOT NULL,
+  `AllPrevTotalPointAchievements` int(11) NOT NULL,
+  `AllPrevTotalAchievements` int(11) NOT NULL,
+  `AllPrevTotalDifference` int(11) NOT NULL,
+  `NeedViolationHandling` tinyint(1) DEFAULT NULL,
+  `HandlingID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `TrainingData`
+--
+
+INSERT INTO `TrainingData` (`TrainingID`, `StudentID`, `AllPrevTotalPointViolations`, `AllPrevTotalViolations`, `AllPrevTotalPointAchievements`, `AllPrevTotalAchievements`, `AllPrevTotalDifference`, `NeedViolationHandling`, `HandlingID`) VALUES
+(10, 3387, 150, 1, 10, 1, 140, NULL, 5),
+(11, 3388, 110, 2, 0, 0, 110, NULL, 5),
+(12, 3389, 150, 1, 0, 0, 150, NULL, 5),
+(13, 3397, 30, 2, 0, 0, 30, NULL, 1),
+(14, 3398, 85, 2, 0, 0, 85, NULL, 4),
+(15, 3400, 100, 1, 10, 1, 90, NULL, 4),
+(16, 3404, 75, 1, 0, 0, 75, NULL, 3),
+(17, 3407, 85, 4, 35, 2, 50, NULL, 2),
+(19, 3411, 40, 2, 35, 2, 5, NULL, NULL),
+(20, 3412, 110, 2, 85, 3, 25, NULL, NULL),
+(21, 3416, 10, 1, 0, 0, 10, NULL, NULL),
+(22, 3419, 50, 2, 40, 2, 10, NULL, NULL),
+(23, 3421, 50, 2, 0, 0, 50, NULL, NULL),
+(24, 3423, 130, 5, 35, 2, 95, NULL, NULL),
+(25, 3433, 10, 1, 0, 0, 10, NULL, NULL),
+(26, 3434, 10, 1, 0, 0, 10, NULL, NULL),
+(27, 3436, 70, 3, 10, 1, 60, NULL, NULL),
+(28, 3442, 110, 2, 15, 1, 95, NULL, NULL),
+(29, 3445, 10, 1, 0, 0, 10, NULL, NULL),
+(30, 3449, 150, 1, 0, 0, 150, NULL, NULL),
+(31, 3461, 50, 3, 0, 0, 50, NULL, NULL),
+(32, 3464, 100, 1, 95, 2, 5, NULL, NULL),
+(33, 3466, 30, 2, 25, 1, 5, NULL, NULL),
+(34, 3475, 30, 1, 0, 0, 30, NULL, NULL),
+(35, 3476, 85, 5, 0, 0, 85, NULL, NULL),
+(36, 3485, 20, 1, 0, 0, 20, NULL, NULL),
+(37, 3488, 150, 1, 0, 0, 150, NULL, NULL),
+(38, 3489, 150, 1, 25, 1, 125, NULL, NULL),
+(39, 3494, 100, 1, 30, 2, 70, NULL, NULL),
+(40, 3497, 110, 2, 25, 1, 85, NULL, NULL),
+(41, 3501, 40, 3, 0, 0, 40, NULL, NULL),
+(42, 3502, 150, 1, 0, 0, 150, NULL, NULL),
+(43, 3515, 10, 1, 0, 0, 10, NULL, NULL),
+(44, 3516, 85, 3, 0, 0, 85, NULL, NULL),
+(45, 3520, 10, 1, 0, 0, 10, NULL, NULL),
+(46, 3522, 10, 1, 0, 0, 10, NULL, NULL),
+(47, 3524, 40, 1, 25, 1, 15, NULL, NULL),
+(48, 3526, 10, 1, 0, 0, 10, NULL, NULL),
+(49, 3532, 150, 1, 35, 2, 115, NULL, NULL),
+(50, 3534, 150, 1, 0, 0, 150, NULL, NULL),
+(51, 3535, 40, 1, 25, 3, 15, NULL, NULL),
+(52, 3543, 10, 3, 0, 0, 10, NULL, NULL),
+(53, 3549, 150, 1, 50, 1, 100, NULL, NULL),
+(54, 3551, 110, 3, 100, 2, 10, NULL, NULL),
+(55, 3552, 40, 1, 0, 0, 40, NULL, NULL),
+(56, 3554, 110, 2, 75, 2, 35, NULL, NULL),
+(57, 3555, 110, 2, 40, 2, 70, NULL, NULL),
+(58, 3557, 150, 3, 15, 2, 135, NULL, NULL),
+(59, 3565, 20, 1, 0, 0, 20, NULL, NULL),
+(60, 3571, 85, 3, 25, 1, 60, NULL, NULL),
+(61, 3572, 100, 4, 0, 0, 100, NULL, NULL),
+(62, 3575, 10, 1, 0, 0, 10, NULL, NULL),
+(63, 3578, 150, 1, 0, 0, 150, NULL, NULL),
+(64, 3580, 30, 2, 0, 0, 30, NULL, NULL),
+(65, 3581, 150, 1, 0, 0, 150, NULL, NULL),
+(66, 3589, 150, 1, 0, 0, 150, NULL, NULL),
+(67, 3590, 150, 1, 90, 2, 60, NULL, NULL),
+(68, 3592, 30, 1, 20, 1, 10, NULL, NULL),
+(69, 3593, 110, 2, 100, 1, 10, NULL, NULL),
+(70, 3595, 150, 1, 25, 1, 125, NULL, NULL),
+(71, 3598, 150, 1, 0, 0, 150, NULL, NULL),
+(72, 3603, 110, 3, 50, 3, 60, NULL, NULL),
+(73, 3607, 110, 3, 25, 1, 85, NULL, NULL),
+(74, 3611, 10, 2, 0, 0, 10, NULL, NULL),
+(75, 3614, 10, 2, 0, 0, 10, NULL, NULL),
+(76, 3616, 40, 1, 25, 1, 15, NULL, NULL),
+(77, 3617, 50, 2, 10, 1, 40, NULL, NULL),
+(78, 3619, 150, 1, 90, 3, 60, NULL, NULL),
+(79, 3624, 105, 4, 40, 2, 65, NULL, NULL),
+(80, 3625, 150, 1, 0, 0, 150, NULL, NULL),
+(81, 3631, 150, 1, 0, 0, 150, NULL, NULL),
+(82, 3634, 115, 3, 50, 1, 65, NULL, NULL),
+(83, 3635, 85, 2, 0, 0, 85, NULL, NULL),
+(84, 3639, 85, 2, 50, 1, 35, NULL, NULL),
+(85, 3641, 150, 1, 0, 0, 150, NULL, NULL),
+(86, 3644, 10, 1, 0, 0, 10, NULL, NULL),
+(87, 3653, 30, 1, 25, 2, 5, NULL, NULL),
+(88, 3654, 100, 1, 10, 1, 90, NULL, NULL),
+(89, 3656, 50, 4, 0, 0, 50, NULL, NULL),
+(90, 3660, 130, 3, 0, 0, 130, NULL, NULL),
+(91, 3666, 30, 3, 0, 0, 30, NULL, NULL),
+(92, 3668, 40, 2, 0, 0, 40, NULL, NULL),
+(93, 3670, 150, 1, 10, 1, 140, NULL, NULL),
+(94, 3672, 85, 2, 0, 0, 85, NULL, NULL),
+(95, 3677, 150, 1, 0, 0, 150, NULL, NULL),
+(96, 3683, 150, 1, 100, 1, 50, NULL, NULL),
+(97, 3684, 10, 1, 0, 0, 10, NULL, NULL),
+(98, 3688, 10, 1, 0, 0, 10, NULL, NULL),
+(99, 3691, 150, 3, 0, 0, 150, NULL, NULL),
+(100, 3693, 50, 2, 15, 1, 35, NULL, NULL),
+(101, 3704, 150, 1, 115, 3, 35, NULL, NULL),
+(102, 3705, 150, 1, 55, 3, 95, NULL, NULL),
+(103, 3706, 10, 1, 0, 0, 10, NULL, NULL),
+(104, 3707, 85, 2, 50, 1, 35, NULL, NULL),
+(105, 3713, 110, 3, 0, 0, 110, NULL, NULL),
+(106, 3716, 110, 2, 0, 0, 110, NULL, NULL),
+(107, 3717, 150, 1, 25, 1, 125, NULL, NULL),
+(108, 3722, 75, 1, 20, 1, 55, NULL, NULL),
+(109, 3731, 150, 1, 0, 0, 150, NULL, NULL),
+(110, 3732, 150, 1, 10, 1, 140, NULL, NULL),
+(111, 3734, 110, 2, 35, 2, 75, NULL, NULL),
+(112, 3735, 110, 2, 40, 3, 70, NULL, NULL),
+(113, 3742, 150, 1, 25, 1, 125, NULL, NULL),
+(114, 3743, 10, 1, 0, 0, 10, NULL, NULL),
+(115, 3744, 10, 1, 0, 0, 10, NULL, NULL),
+(116, 3746, 150, 1, 0, 0, 150, NULL, NULL),
+(117, 3751, 110, 4, 0, 0, 110, NULL, NULL),
+(118, 3759, 150, 1, 0, 0, 150, NULL, NULL),
+(119, 3770, 95, 2, 25, 1, 70, NULL, NULL),
+(120, 3772, 75, 1, 25, 2, 50, NULL, NULL),
+(121, 3779, 100, 1, 0, 0, 100, NULL, NULL),
+(122, 3794, 110, 2, 75, 3, 35, NULL, NULL),
+(123, 3796, 10, 1, 0, 0, 10, NULL, NULL),
+(124, 3800, 95, 2, 0, 0, 95, NULL, NULL),
+(125, 3801, 150, 1, 75, 1, 75, NULL, NULL),
+(126, 3808, 10, 1, 0, 0, 10, NULL, NULL),
+(127, 3810, 70, 2, 15, 1, 55, NULL, NULL),
+(128, 3811, 10, 1, 0, 0, 10, NULL, NULL),
+(129, 3813, 10, 2, 0, 0, 10, NULL, NULL),
+(130, 3817, 30, 2, 15, 1, 15, NULL, NULL),
+(131, 3821, 150, 1, 0, 0, 150, NULL, NULL),
+(132, 3822, 20, 1, 0, 0, 20, NULL, NULL),
+(133, 3828, 30, 1, 25, 2, 5, NULL, NULL),
+(134, 3835, 30, 2, 20, 1, 10, NULL, NULL),
+(135, 3840, 150, 1, 100, 1, 50, NULL, NULL),
+(136, 3842, 150, 1, 25, 1, 125, NULL, NULL),
+(137, 3844, 120, 2, 25, 1, 95, NULL, NULL),
+(138, 3847, 85, 3, 15, 1, 70, NULL, NULL),
+(139, 3850, 10, 1, 0, 0, 10, NULL, NULL),
+(140, 3851, 110, 3, 75, 1, 35, NULL, NULL),
+(141, 3857, 150, 1, 25, 1, 125, NULL, NULL),
+(142, 3858, 40, 2, 15, 1, 25, NULL, NULL),
+(143, 3869, 140, 3, 100, 3, 40, NULL, NULL),
+(144, 3870, 85, 2, 0, 0, 85, NULL, NULL),
+(145, 3872, 100, 1, 25, 1, 75, NULL, NULL),
+(146, 3877, 100, 1, 0, 0, 100, NULL, NULL),
+(147, 3878, 30, 1, 25, 1, 5, NULL, NULL),
+(148, 3879, 10, 1, 0, 0, 10, NULL, NULL),
+(149, 3880, 110, 2, 85, 3, 25, NULL, NULL),
+(150, 3883, 150, 1, 0, 0, 150, NULL, NULL),
+(151, 3884, 40, 1, 10, 1, 30, NULL, NULL),
+(152, 3896, 40, 1, 30, 2, 10, NULL, NULL),
+(153, 3899, 95, 2, 0, 0, 95, NULL, NULL),
+(154, 3901, 150, 1, 100, 2, 50, NULL, NULL),
+(155, 3905, 30, 3, 0, 0, 30, NULL, NULL),
+(156, 3914, 40, 1, 10, 1, 30, NULL, NULL),
+(157, 3916, 10, 1, 0, 0, 10, NULL, NULL),
+(158, 3918, 30, 2, 0, 0, 30, NULL, NULL),
+(159, 3925, 10, 2, 0, 0, 10, NULL, NULL),
+(160, 3928, 85, 2, 0, 0, 85, NULL, NULL),
+(161, 3933, 40, 1, 20, 1, 20, NULL, NULL),
+(162, 3935, 150, 1, 0, 0, 150, NULL, NULL),
+(163, 3938, 150, 1, 0, 0, 150, NULL, NULL),
+(164, 3945, 10, 4, 0, 0, 10, NULL, NULL),
+(165, 3950, 75, 1, 10, 1, 65, NULL, NULL),
+(166, 3951, 130, 3, 0, 0, 130, NULL, NULL),
+(167, 3955, 30, 1, 0, 0, 30, NULL, NULL),
+(168, 3956, 150, 1, 50, 1, 100, NULL, NULL),
+(169, 3965, 100, 1, 25, 1, 75, NULL, NULL),
+(170, 3966, 110, 4, 35, 3, 75, NULL, NULL),
+(171, 3975, 100, 1, 50, 5, 50, NULL, NULL),
+(172, 3976, 85, 3, 0, 0, 85, NULL, NULL),
+(173, 3979, 75, 1, 20, 1, 55, NULL, NULL),
+(174, 3981, 50, 2, 35, 2, 15, NULL, NULL),
+(175, 3983, 10, 1, 0, 0, 10, NULL, NULL),
+(176, 3984, 10, 1, 0, 0, 10, NULL, NULL),
+(177, 3987, 10, 1, 0, 0, 10, NULL, NULL),
+(178, 3990, 100, 1, 15, 1, 85, NULL, NULL),
+(179, 3993, 10, 1, 0, 0, 10, NULL, NULL),
+(180, 3994, 40, 1, 35, 2, 5, NULL, NULL),
+(181, 4000, 70, 3, 25, 1, 45, NULL, NULL),
+(182, 4004, 150, 1, 30, 2, 120, NULL, NULL),
+(183, 4010, 110, 3, 20, 1, 90, NULL, NULL),
+(184, 4011, 20, 1, 10, 1, 10, NULL, NULL),
+(185, 4017, 40, 1, 0, 0, 40, NULL, NULL),
+(186, 4022, 10, 1, 0, 0, 10, NULL, NULL),
+(187, 4024, 20, 1, 0, 0, 20, NULL, NULL),
+(188, 4027, 100, 1, 0, 0, 100, NULL, NULL),
+(189, 4029, 30, 2, 10, 1, 20, NULL, NULL),
+(190, 4034, 10, 1, 0, 0, 10, NULL, NULL),
+(191, 4038, 10, 2, 0, 0, 10, NULL, NULL),
+(192, 4039, 10, 1, 0, 0, 10, NULL, NULL),
+(193, 4045, 75, 1, 50, 1, 25, NULL, NULL),
+(194, 4048, 130, 3, 0, 0, 130, NULL, NULL),
+(195, 4049, 100, 1, 25, 2, 75, NULL, NULL),
+(196, 4065, 75, 1, 0, 0, 75, NULL, NULL),
+(197, 4066, 130, 2, 20, 1, 110, NULL, NULL),
+(198, 4074, 10, 1, 0, 0, 10, NULL, NULL),
+(199, 4077, 30, 3, 25, 1, 5, NULL, NULL),
+(200, 4082, 100, 1, 0, 0, 100, NULL, NULL),
+(201, 4096, 150, 1, 100, 1, 50, NULL, NULL),
+(202, 4097, 30, 3, 10, 1, 20, NULL, NULL),
+(203, 4098, 110, 2, 20, 1, 90, NULL, NULL),
+(204, 4105, 110, 2, 90, 4, 20, NULL, NULL),
+(205, 4106, 10, 3, 0, 0, 10, NULL, NULL),
+(206, 4112, 50, 2, 15, 1, 35, NULL, NULL),
+(207, 4115, 100, 1, 0, 0, 100, NULL, NULL),
+(208, 4118, 10, 1, 0, 0, 10, NULL, NULL),
+(209, 4123, 150, 1, 100, 1, 50, NULL, NULL),
+(210, 4124, 40, 1, 0, 0, 40, NULL, NULL),
+(211, 4130, 150, 1, 35, 3, 115, NULL, NULL),
+(212, 4135, 110, 3, 10, 1, 100, NULL, NULL),
+(213, 4137, 75, 1, 0, 0, 75, NULL, NULL),
+(214, 4139, 150, 1, 60, 4, 90, NULL, NULL),
+(215, 4140, 75, 1, 0, 0, 75, NULL, NULL),
+(216, 4143, 150, 1, 0, 0, 150, NULL, NULL),
+(217, 4144, 105, 4, 25, 2, 80, NULL, NULL),
+(218, 4145, 85, 2, 25, 1, 60, NULL, NULL),
+(219, 4155, 100, 1, 0, 0, 100, NULL, NULL),
+(220, 4165, 100, 1, 0, 0, 100, NULL, NULL),
+(221, 4169, 110, 2, 10, 1, 100, NULL, NULL),
+(222, 4172, 150, 1, 0, 0, 150, NULL, NULL),
+(223, 4177, 30, 2, 0, 0, 30, NULL, NULL),
+(224, 4182, 110, 3, 0, 0, 110, NULL, NULL),
+(225, 4183, 75, 1, 0, 0, 75, NULL, NULL),
+(226, 4185, 40, 1, 0, 0, 40, NULL, NULL),
+(227, 4187, 110, 2, 0, 0, 110, NULL, NULL),
+(228, 4189, 30, 2, 0, 0, 30, NULL, NULL),
+(229, 4191, 150, 1, 10, 1, 140, NULL, NULL),
+(230, 4192, 10, 2, 0, 0, 10, NULL, NULL),
+(231, 4196, 150, 1, 75, 3, 75, NULL, NULL),
+(232, 4201, 150, 1, 0, 0, 150, NULL, NULL),
+(233, 4222, 10, 1, 0, 0, 10, NULL, NULL),
+(234, 4223, 110, 2, 0, 0, 110, NULL, NULL),
+(235, 4225, 100, 1, 25, 1, 75, NULL, NULL),
+(236, 4232, 30, 1, 15, 1, 15, NULL, NULL),
+(237, 4235, 50, 2, 25, 1, 25, NULL, NULL),
+(238, 4236, 40, 2, 15, 2, 25, NULL, NULL),
+(239, 4238, 40, 2, 10, 1, 30, NULL, NULL),
+(240, 4239, 100, 1, 45, 2, 55, NULL, NULL),
+(241, 4241, 75, 1, 0, 0, 75, NULL, NULL),
+(242, 4247, 100, 1, 25, 1, 75, NULL, NULL),
+(243, 4250, 10, 1, 0, 0, 10, NULL, NULL),
+(244, 4252, 10, 2, 0, 0, 10, NULL, NULL),
+(245, 4255, 30, 1, 0, 0, 30, NULL, NULL),
+(246, 4256, 50, 3, 25, 1, 25, NULL, NULL),
+(247, 4263, 40, 1, 25, 1, 15, NULL, NULL),
+(248, 4264, 10, 1, 0, 0, 10, NULL, NULL),
+(249, 4265, 10, 1, 0, 0, 10, NULL, NULL),
+(250, 4267, 150, 1, 100, 1, 50, NULL, NULL),
+(251, 4271, 100, 1, 0, 0, 100, NULL, NULL),
+(252, 4274, 10, 2, 0, 0, 10, NULL, NULL),
+(253, 4280, 20, 1, 0, 0, 20, NULL, NULL),
+(254, 4283, 100, 1, 25, 3, 75, NULL, NULL),
+(255, 4284, 150, 1, 0, 0, 150, NULL, NULL),
+(256, 4285, 40, 1, 0, 0, 40, NULL, NULL),
+(257, 4291, 150, 1, 0, 0, 150, NULL, NULL),
+(258, 4293, 20, 1, 0, 0, 20, NULL, NULL),
+(259, 4296, 20, 1, 0, 0, 20, NULL, NULL),
+(260, 4298, 150, 1, 0, 0, 150, NULL, NULL),
+(261, 4300, 150, 1, 90, 5, 60, NULL, NULL),
+(262, 4304, 110, 2, 25, 2, 85, NULL, NULL),
+(263, 4306, 30, 2, 0, 0, 30, NULL, NULL),
+(264, 4308, 10, 1, 0, 0, 10, NULL, NULL),
+(265, 4309, 120, 2, 25, 1, 95, NULL, NULL),
+(266, 4311, 75, 1, 40, 2, 35, NULL, NULL),
+(267, 4312, 100, 1, 40, 2, 60, NULL, NULL),
+(268, 4314, 130, 3, 115, 3, 15, NULL, NULL),
+(269, 4321, 10, 1, 0, 0, 10, NULL, NULL),
+(270, 4324, 110, 2, 0, 0, 110, NULL, NULL),
+(271, 4328, 70, 2, 45, 3, 25, NULL, NULL),
+(272, 4329, 40, 2, 0, 0, 40, NULL, NULL),
+(273, 4336, 40, 1, 35, 2, 5, NULL, NULL),
+(274, 4340, 10, 1, 0, 0, 10, NULL, NULL),
+(275, 4343, 100, 1, 25, 1, 75, NULL, NULL),
+(276, 4348, 60, 3, 50, 1, 10, NULL, NULL),
+(277, 4358, 150, 1, 0, 0, 150, NULL, NULL),
+(278, 4363, 85, 3, 0, 0, 85, NULL, NULL),
+(279, 4367, 75, 1, 0, 0, 75, NULL, NULL),
+(280, 4370, 50, 2, 0, 0, 50, NULL, NULL),
+(281, 4372, 100, 1, 40, 2, 60, NULL, NULL),
+(282, 4375, 10, 1, 0, 0, 10, NULL, NULL),
+(283, 4381, 100, 1, 0, 0, 100, NULL, NULL),
+(284, 4382, 40, 1, 25, 2, 15, NULL, NULL),
+(285, 4387, 40, 2, 0, 0, 40, NULL, NULL),
+(286, 4390, 10, 1, 0, 0, 10, NULL, NULL),
+(287, 4391, 30, 4, 20, 1, 10, NULL, NULL),
+(288, 4402, 10, 2, 0, 0, 10, NULL, NULL),
+(289, 4405, 150, 1, 90, 3, 60, NULL, NULL),
+(290, 4406, 110, 2, 0, 0, 110, NULL, NULL),
+(291, 4414, 50, 3, 15, 1, 35, NULL, NULL),
+(292, 4416, 40, 1, 0, 0, 40, NULL, NULL),
+(293, 4419, 130, 5, 35, 2, 95, NULL, NULL),
+(294, 4423, 85, 2, 0, 0, 85, NULL, NULL),
+(295, 4427, 85, 4, 25, 1, 60, NULL, NULL),
+(296, 4429, 30, 2, 20, 1, 10, NULL, NULL),
+(297, 4432, 150, 1, 0, 0, 150, NULL, NULL),
+(298, 4439, 10, 1, 0, 0, 10, NULL, NULL),
+(299, 4440, 150, 1, 50, 1, 100, NULL, NULL),
+(300, 4455, 150, 1, 0, 0, 150, NULL, NULL),
+(301, 4459, 150, 1, 100, 1, 50, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Users`
 --
 
@@ -6926,6 +7452,22 @@ ALTER TABLE `Teachers`
   ADD KEY `UserID` (`UserID`);
 
 --
+-- Indexes for table `TestingData`
+--
+ALTER TABLE `TestingData`
+  ADD PRIMARY KEY (`TestingID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `testingdata_ibfk_2` (`HandlingID`);
+
+--
+-- Indexes for table `TrainingData`
+--
+ALTER TABLE `TrainingData`
+  ADD PRIMARY KEY (`TrainingID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `trainingdata_ibfk_2` (`HandlingID`);
+
+--
 -- Indexes for table `Users`
 --
 ALTER TABLE `Users`
@@ -6999,6 +7541,18 @@ ALTER TABLE `Teachers`
   MODIFY `TeacherID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `TestingData`
+--
+ALTER TABLE `TestingData`
+  MODIFY `TestingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+
+--
+-- AUTO_INCREMENT for table `TrainingData`
+--
+ALTER TABLE `TrainingData`
+  MODIFY `TrainingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
+
+--
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
@@ -7018,7 +7572,7 @@ ALTER TABLE `Classes`
 -- Constraints for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
-  ADD CONSTRAINT `logactivity_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `logactivity_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `StudentAchievements`
@@ -7031,27 +7585,39 @@ ALTER TABLE `StudentAchievements`
 -- Constraints for table `Students`
 --
 ALTER TABLE `Students`
-  ADD CONSTRAINT `student_classes` FOREIGN KEY (`ClassID`) REFERENCES `Classes` (`ClassID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `student_users` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `student_classes` FOREIGN KEY (`ClassID`) REFERENCES `classes` (`ClassID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `student_users` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `StudentViolations`
 --
 ALTER TABLE `StudentViolations`
-  ADD CONSTRAINT `studentviolations_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `Students` (`StudentID`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `studentviolations_ibfk_2` FOREIGN KEY (`ViolationID`) REFERENCES `MasterViolations` (`ViolationID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `studentviolations_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `students` (`StudentID`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `studentviolations_ibfk_2` FOREIGN KEY (`ViolationID`) REFERENCES `masterviolations` (`ViolationID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Teachers`
 --
 ALTER TABLE `Teachers`
-  ADD CONSTRAINT `teacher_users` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `teacher_users` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `TestingData`
+--
+ALTER TABLE `TestingData`
+  ADD CONSTRAINT `testingdata_ibfk_2` FOREIGN KEY (`HandlingID`) REFERENCES `MasterViolationHandlings` (`HandlingID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `TrainingData`
+--
+ALTER TABLE `TrainingData`
+  ADD CONSTRAINT `trainingdata_ibfk_2` FOREIGN KEY (`HandlingID`) REFERENCES `MasterViolationHandlings` (`HandlingID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `Users`
 --
 ALTER TABLE `Users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `Roles` (`RoleID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `roles` (`RoleID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
