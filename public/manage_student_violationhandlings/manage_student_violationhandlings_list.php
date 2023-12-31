@@ -28,7 +28,7 @@ function fetchMasterViolationHandlings() {
         return $data;
     } else {
         // Handle the error
-        echo "Error: " . $query . "<br>" . mysqli_error($connection);
+        echo "Error: " . $query . "<br>" . mysqli_error($conn);
         return [];
     }
 }
@@ -77,6 +77,8 @@ $query = "SELECT
               Students.StudentID,
               Students.StudentNumber,
               Users.FullName AS StudentName,
+              GROUP_CONCAT(DISTINCT StudentViolations.ViolationID) AS ViolationIDs,
+              GROUP_CONCAT(DISTINCT StudentAchievements.AchievementID) AS AchievementIDs,
               -- Data for the selected semester
               COUNT(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) = $selectedYear AND MONTH(StudentViolations.Date) BETWEEN $startMonth AND $endMonth THEN StudentViolations.ViolationID END) AS TotalViolations,
               COUNT(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) = $selectedYear AND MONTH(StudentAchievements.Date) BETWEEN $startMonth AND $endMonth THEN StudentAchievements.AchievementID END) AS TotalAchievements,
@@ -113,7 +115,6 @@ $query = "SELECT
              OR (YEAR(StudentViolations.Date) < $selectedYear)
              OR (YEAR(StudentAchievements.Date) < $selectedYear)
           GROUP BY Students.StudentID";
-
 $result = mysqli_query($conn, $query);
 
 ?>
@@ -178,8 +179,6 @@ $result = mysqli_query($conn, $query);
                             ?>
                         </div>
                         <!-- End Filter Buttons -->
-
-
                         <!-- Display Total Points (Violations and Achievements) -->
                         <h2 class="text-xl font-semibold mb-2">Total Points for Students (Violations and Achievements)</h2>
                         <?php
@@ -205,7 +204,7 @@ $result = mysqli_query($conn, $query);
                             return $handlingNeeded;
                         }
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $totalDif = $row['AllPrevTotalDifference'] + $row['PrevTotalPointAchievements'] + $row['PrevTotalViolations']+ $row['TotalDifference'];
+                            $totalDif = $row['AllPrevTotalDifference'] + $row['PrevTotalPointAchievements'] + $row['PrevTotalViolations'] + $row['TotalDifference'];
                             $studentInfo = array(
                                 'StudentID' => $row['StudentID'],
                                 'StudentName' => $row['StudentName'],
@@ -223,8 +222,12 @@ $result = mysqli_query($conn, $query);
                                 'TotalViolations' => $row['TotalViolations'],
                                 'TotalPointAchievements' => $row['TotalPointAchievements'],
                                 'TotalAchievements' => $row['TotalAchievements'],
+                                'AchievementIDs' => $row['AchievementIDs'],
+                                'ViolationIDs' => $row['ViolationIDs'],
                                 'TotalDifference' => $totalDif,
                             );
+                            var_dump($row['ViolationIDs']);
+                            echo "<br>";
 
                             // Add the student information array to the main array
                             $studentData[] = $studentInfo;
@@ -279,6 +282,7 @@ $result = mysqli_query($conn, $query);
                         <table class="min-w-full bg-white border border-gray-300">
                             <thead>
                                 <tr>
+                                    <th class="py-2 px-4 border-b">No</th>
                                     <th class="py-2 px-4 border-b">Student Name</th>
                                     <th class="py-2 px-4 border-b"><i class="fa-solid fa-skull-crossbones"></i></th>
                                     <th class="py-2 px-4 border-b"><i class="fa-solid fa-trophy"></i></th>
@@ -293,12 +297,15 @@ $result = mysqli_query($conn, $query);
                             </thead>
                             <tbody>
                             <?php
+                            $no = 0;
                             // Fetch data from MasterViolationHandlings
                             $masterViolationHandlings = fetchMasterViolationHandlings();
                             foreach ($studentData as $studentInfo) {
+                                $no++;
                                 // Check if TotalDifference is greater than 0
                                 if ($studentInfo['TotalDifference'] > 0) {
                                     echo '<tr>';
+                                    echo '<td>'.$no.'</td>';
                                     echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $studentInfo['StudentID'] . '">' . $studentInfo['StudentName'] . ' (' . $studentInfo['StudentNumber'] . ')</a></td>';
                                     echo '<td class="py-2 px-4 border-b">' . $studentInfo['AllPrevTotalPointViolations'] . ' (' . $studentInfo['AllPrevTotalViolations'] . ')</td>';
                                     echo '<td class="py-2 px-4 border-b">' . $studentInfo['AllPrevTotalPointAchievements'] . ' (' . $studentInfo['AllPrevTotalAchievements'] . ')</td>';
@@ -359,7 +366,7 @@ $result = mysqli_query($conn, $query);
                                     }
                                     echo '</td>';
 
-                                    echo '</tr>';
+                                    echo '</td>';
                                 }
                             }
                             ?>
