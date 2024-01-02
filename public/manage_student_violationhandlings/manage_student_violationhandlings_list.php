@@ -1,57 +1,11 @@
 <?php
-// Initialize the session
-session_start();
 // Include the connection file
 require_once('../../database/connection.php');
+require_once('getData.php');
 
 // Initialize variables
 $errors = array();
 
-// Initialize an array to store student data
-$studentData = array();
-// Function to fetch MasterViolationHandlings data
-function fetchMasterViolationHandlings() {
-    global $conn;
-
-    // Perform SQL query to fetch data
-    $query = "SELECT * FROM MasterViolationHandlings";
-    $result = mysqli_query($conn, $query);
-
-    // Check if the query was successful
-    if ($result) {
-        // Fetch data as an associative array
-        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-        // Free result set
-        mysqli_free_result($result);
-
-        return $data;
-    } else {
-        // Handle the error
-        echo "Error: " . $query . "<br>" . mysqli_error($conn);
-        return [];
-    }
-}
-function getFollowUpAction($masterViolationHandlings, $totalDifference) {
-    foreach ($masterViolationHandlings as $handling) {
-        $bottomRange = $handling['ScoreRangeBottom'];
-        $topRange = $handling['ScoreRangeTop'];
-
-        // Check if TotalDifference falls within the specified range
-        if ($totalDifference >= $bottomRange && $totalDifference <= $topRange) {
-            return [
-                'ViolationCategory' => $handling['ViolationCategory'],
-                'FollowUpAction' => $handling['FollowUpAction'],
-            ];
-        }
-    }
-
-    // If no match is found, you can return a default or handle it accordingly
-    return [
-        'ViolationCategory' => 'Default Category',
-        'FollowUpAction' => 'Default Action',
-    ];
-}
 // Get the selected year and semester from the URL parameters
 $selectedYear = isset($_GET['year']) ? intval($_GET['year']) : null;
 $selectedSemester = isset($_GET['semester']) ? intval($_GET['semester']) : null;
@@ -71,52 +25,6 @@ $endMonth = ($selectedSemester == 1) ? 6 : 12;
 $prevStartMonth = ($selectedSemester == 1) ? 7 : 1;
 $prevEndMonth = ($selectedSemester == 1) ? 12 : 6;
 $prevYear = ($selectedSemester == 1) ? $selectedYear - 1 : $selectedYear;
-
-// Fetch data for each student in the specified semester and year
-$query = "SELECT
-              Students.StudentID,
-              Students.StudentNumber,
-              Users.FullName AS StudentName,
-              GROUP_CONCAT(DISTINCT StudentViolations.ViolationID) AS ViolationIDs,
-              GROUP_CONCAT(DISTINCT StudentAchievements.AchievementID) AS AchievementIDs,
-              -- Data for the selected semester
-              COUNT(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) = $selectedYear AND MONTH(StudentViolations.Date) BETWEEN $startMonth AND $endMonth THEN StudentViolations.ViolationID END) AS TotalViolations,
-              COUNT(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) = $selectedYear AND MONTH(StudentAchievements.Date) BETWEEN $startMonth AND $endMonth THEN StudentAchievements.AchievementID END) AS TotalAchievements,
-              COALESCE(SUM(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) = $selectedYear AND MONTH(StudentViolations.Date) BETWEEN $startMonth AND $endMonth THEN MasterViolations.Points END), 0) AS TotalPointViolations,
-              COALESCE(SUM(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) = $selectedYear AND MONTH(StudentAchievements.Date) BETWEEN $startMonth AND $endMonth THEN MasterAchievements.Points END), 0) AS TotalPointAchievements,
-              (COALESCE(SUM(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) = $selectedYear AND MONTH(StudentViolations.Date) BETWEEN $startMonth AND $endMonth THEN MasterViolations.Points END), 0) -
-               COALESCE(SUM(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) = $selectedYear AND MONTH(StudentAchievements.Date) BETWEEN $startMonth AND $endMonth THEN MasterAchievements.Points END), 0)) AS TotalDifference,
-              -- Data for the previous semester
-              COUNT(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) = $prevYear AND MONTH(StudentViolations.Date) BETWEEN $prevStartMonth AND $prevEndMonth THEN StudentViolations.ViolationID END) AS PrevTotalViolations,
-              COUNT(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) = $prevYear AND MONTH(StudentAchievements.Date) BETWEEN $prevStartMonth AND $prevEndMonth THEN StudentAchievements.AchievementID END) AS PrevTotalAchievements,
-              COALESCE(SUM(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) = $prevYear AND MONTH(StudentViolations.Date) BETWEEN $prevStartMonth AND $prevEndMonth THEN MasterViolations.Points END), 0) AS PrevTotalPointViolations,
-              COALESCE(SUM(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) = $prevYear AND MONTH(StudentAchievements.Date) BETWEEN $prevStartMonth AND $prevEndMonth THEN MasterAchievements.Points END), 0) AS PrevTotalPointAchievements,
-              -- Data for all previous semesters
-              COUNT(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) < $selectedYear THEN StudentViolations.ViolationID END) AS AllPrevTotalViolations,
-              COUNT(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) < $selectedYear THEN StudentAchievements.AchievementID END) AS AllPrevTotalAchievements,
-              COALESCE(SUM(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) < $selectedYear THEN MasterViolations.Points END), 0) AS AllPrevTotalPointViolations,
-              COALESCE(SUM(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) < $selectedYear THEN MasterAchievements.Points END), 0) AS AllPrevTotalPointAchievements,
-              -- Data for all previous semesters difference
-              (COALESCE(SUM(DISTINCT CASE WHEN MasterViolations.ViolationID IS NOT NULL AND YEAR(StudentViolations.Date) < $selectedYear THEN MasterViolations.Points END), 0) -
-               COALESCE(SUM(DISTINCT CASE WHEN MasterAchievements.AchievementID IS NOT NULL AND YEAR(StudentAchievements.Date) < $selectedYear THEN MasterAchievements.Points END), 0)) AS AllPrevTotalDifference
-          FROM Students
-          LEFT JOIN Users ON Students.UserID = Users.UserID
-          LEFT JOIN StudentViolations ON Students.StudentID = StudentViolations.StudentID
-          LEFT JOIN MasterViolations ON StudentViolations.ViolationID = MasterViolations.ViolationID
-          LEFT JOIN StudentAchievements ON Students.StudentID = StudentAchievements.StudentID
-          LEFT JOIN MasterAchievements ON StudentAchievements.AchievementID = MasterAchievements.AchievementID
-          -- Conditions for the selected semester
-          WHERE (YEAR(StudentViolations.Date) = $selectedYear AND MONTH(StudentViolations.Date) BETWEEN $startMonth AND $endMonth)
-             OR (YEAR(StudentAchievements.Date) = $selectedYear AND MONTH(StudentAchievements.Date) BETWEEN $startMonth AND $endMonth)
-          -- Conditions for the previous semester
-             OR (YEAR(StudentViolations.Date) = $prevYear AND MONTH(StudentViolations.Date) BETWEEN $prevStartMonth AND $prevEndMonth)
-             OR (YEAR(StudentAchievements.Date) = $prevYear AND MONTH(StudentAchievements.Date) BETWEEN $prevStartMonth AND $prevEndMonth)
-          -- Conditions for all previous semesters
-             OR (YEAR(StudentViolations.Date) < $selectedYear)
-             OR (YEAR(StudentAchievements.Date) < $selectedYear)
-          GROUP BY Students.StudentID";
-$result = mysqli_query($conn, $query);
-
 ?>
 <?php include_once('../components/header.php'); ?>
 
@@ -163,7 +71,7 @@ $result = mysqli_query($conn, $query);
                         <div class="flex flex-wrap gap-2 mb-4 justify-between" id="filterButtons">
                             <?php
                             // Get current year
-                            $currentYear = date('Y');
+                            $currentYear = date('Y') - 1;
 
                             // Loop through the last two years
                             for ($year = $currentYear; $year >= $currentYear - 2; $year--) {
@@ -180,168 +88,206 @@ $result = mysqli_query($conn, $query);
                         </div>
                         <!-- End Filter Buttons -->
                         <!-- Display Total Points (Violations and Achievements) -->
-                        <h2 class="text-xl font-semibold mb-2">Total Points for Students (Violations and Achievements)</h2>
-                        <?php
-                        // Initialize arrays
-                        $DataTraining = array();
-                        $DataTesting = array();
-                        // Function to check if handling is needed
-                        function checkHandlingNeeded($difference)
-                        {
-                            // Perform a database query to check if handling is needed based on the difference
-                            // Replace 'your_db_connection' with your actual database connection variable
-                            global $conn;
+                        <h2 class="text-xl font-semibold mb-2">Total Points for Students (Violations and Achievements) <?php echo $semesterText . " " . $selectedYear . "/ " . ($selectedYear + 1); ?></h2>
+                        <!-- End Display Total Points (Violations and Achievements) -->
+                        <!-- Display SemesterResultsTraining Table -->
+                        <div class="mt-4">
+                            <h2 class="text-xl font-semibold mb-2">SemesterResultsTraining Data</h2>
 
-                            $query = "SELECT HandlingID FROM MasterViolationHandlings WHERE $difference BETWEEN ScoreRangeBottom AND ScoreRangeTop";
+                            <?php
+                            // Fetch data from SemesterResultsTraining table
+                            $query = "SELECT `DataID`, `Semester`, `Year`, `PrevYear`, `StartMonth`, `EndMonth`, `PrevStartMonth`, `PrevEndMonth`, `PreSemester`, `StudentID`, `StudentNumber`, `StudentName`, `ViolationIDs`, `AchievementIDs`, `TotalViolations`, `TotalAchievements`, `TotalPointViolations`, `TotalPointAchievements`, `TotalDifference`, `PrevTotalViolations`, `PrevTotalAchievements`, `PrevTotalPointViolations`, `PrevTotalPointAchievements`, `AllPrevTotalViolations`, `AllPrevTotalAchievements`, `AllPrevTotalPointViolations`, `AllPrevTotalPointAchievements`, `AllPrevTotalDifference`, `HandlingID` FROM `SemesterResultsTraining`";
+
                             $result = mysqli_query($conn, $query);
 
-                            // Check if there is a match in the MasterViolationHandlings table
-                            $handlingNeeded = mysqli_num_rows($result) > 0;
+                            // Fetch data from SemesterResultsTraining table
+                            $query = "SELECT `DataID`, `Semester`, `Year`, `PrevYear`, `StartMonth`, `EndMonth`, `PrevStartMonth`, `PrevEndMonth`, `PreSemester`, `StudentID`, `StudentNumber`, `StudentName`, `ViolationIDs`, `AchievementIDs`, `TotalViolations`, `TotalAchievements`, `TotalPointViolations`, `TotalPointAchievements`, `TotalDifference`, `PrevTotalViolations`, `PrevTotalAchievements`, `PrevTotalPointViolations`, `PrevTotalPointAchievements`, `AllPrevTotalViolations`, `AllPrevTotalAchievements`, `AllPrevTotalPointViolations`, `AllPrevTotalPointAchievements`, `AllPrevTotalDifference`, `HandlingID` FROM `SemesterResultsTraining` 
+                            WHERE `Year` = '$selectedYear' AND `Semester` = '$selectedSemester'";
 
-                            // Free the result set
-                            mysqli_free_result($result);
+                            // Initialize an array to store data
+                            $dataArray = array();
+                            $dataArrayTest = array();
 
-                            return $handlingNeeded;
-                        }
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $totalDif = $row['AllPrevTotalDifference'] + $row['PrevTotalPointAchievements'] + $row['PrevTotalViolations'] + $row['TotalDifference'];
-                            $studentInfo = array(
-                                'StudentID' => $row['StudentID'],
-                                'StudentName' => $row['StudentName'],
-                                'StudentNumber' => $row['StudentNumber'],
-                                'AllPrevTotalPointViolations' => $row['AllPrevTotalPointViolations'],
-                                'AllPrevTotalViolations' => $row['AllPrevTotalViolations'],
-                                'AllPrevTotalPointAchievements' => $row['AllPrevTotalPointAchievements'],
-                                'AllPrevTotalAchievements' => $row['AllPrevTotalAchievements'],
-                                'AllPrevTotalDifference' => $row['AllPrevTotalDifference'],
-                                'PrevTotalPointViolations' => $row['PrevTotalPointViolations'],
-                                'PrevTotalViolations' => $row['PrevTotalViolations'],
-                                'PrevTotalPointAchievements' => $row['PrevTotalPointAchievements'],
-                                'PrevTotalAchievements' => $row['PrevTotalAchievements'],
-                                'TotalPointViolations' => $row['TotalPointViolations'],
-                                'TotalViolations' => $row['TotalViolations'],
-                                'TotalPointAchievements' => $row['TotalPointAchievements'],
-                                'TotalAchievements' => $row['TotalAchievements'],
-                                'AchievementIDs' => $row['AchievementIDs'],
-                                'ViolationIDs' => $row['ViolationIDs'],
-                                'TotalDifference' => $totalDif,
-                            );
-                            var_dump($row['ViolationIDs']);
-                            echo "<br>";
+                            $resultTest = mysqli_query($conn, $query);
+                            if (!$resultTest) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
+                                // Initialize an array to store data
+                                $dataArrayTest = array();
 
-                            // Add the student information array to the main array
-                            $studentData[] = $studentInfo;
-                            // For TrainingData table
-                            $trainingSelectQuery = "SELECT * FROM TrainingData WHERE StudentID = '$row[StudentID]'";
-                            $trainingResult = mysqli_query($conn, $trainingSelectQuery);
+                                // Display table data
+                                while ($row = mysqli_fetch_assoc($resultTest)) {
+                                    // Append only the displayed data to the array
+                                    $rowData = array(
+                                        'DataID' => $row['DataID'],
+                                        'StudentID' => $row['StudentID'],
+                                        'StudentNumber' => $row['StudentNumber'],
+                                        'StudentName' => $row['StudentName'],
+                                        'Semester' => $row['Semester'],
+                                        'Year' => $row['Year'],
+                                        'ViolationIDs' => ($row['ViolationIDs'] ? $row['ViolationIDs'] : '0'),
+                                        'AchievementIDs' => ($row['AchievementIDs'] ? $row['AchievementIDs'] : '0'),
+                                        'TotalViolations' => $row['TotalViolations'],
+                                        'TotalAchievements' => $row['TotalAchievements'],
+                                        'TotalPointViolations' => $row['TotalPointViolations'],
+                                        'TotalPointAchievements' => $row['TotalPointAchievements'],
+                                        'TotalDifference' => $row['TotalDifference'],
+                                        'HandlingID' => $row['HandlingID']
+                                    );
 
-                            if (mysqli_num_rows($trainingResult) > 0) {
-                                // Update the existing record
-                                $trainingUpdateQuery = "UPDATE TrainingData SET
-                                                        AllPrevTotalPointViolations = '$row[AllPrevTotalPointViolations]',
-                                                        AllPrevTotalViolations = '$row[AllPrevTotalViolations]',
-                                                        AllPrevTotalPointAchievements = '$row[AllPrevTotalPointAchievements]',
-                                                        AllPrevTotalAchievements = '$row[AllPrevTotalAchievements]',
-                                                        AllPrevTotalDifference = '$row[AllPrevTotalDifference]'
-                                                        WHERE StudentID = '$row[StudentID]'";
-                                mysqli_query($conn, $trainingUpdateQuery);
-                            } elseif ($row['AllPrevTotalDifference'] > 0) {
-                                // Insert the new record only if AllPrevTotalDifference is greater than or equal to 0
-                                $trainingInsertQuery = "INSERT INTO TrainingData (StudentID, AllPrevTotalPointViolations, AllPrevTotalViolations, AllPrevTotalPointAchievements, AllPrevTotalAchievements, AllPrevTotalDifference)
-                                                        VALUES ('$row[StudentID]', '$row[AllPrevTotalPointViolations]', '$row[AllPrevTotalViolations]', '$row[AllPrevTotalPointAchievements]', '$row[AllPrevTotalAchievements]', '$row[AllPrevTotalDifference]')";
-                                mysqli_query($conn, $trainingInsertQuery);
+                                    $dataArrayTest[] = $rowData;
+                                }
                             }
 
-                            // For TestingData table
-                            $testingSelectQuery = "SELECT * FROM TestingData WHERE StudentID = '$row[StudentID]'";
-                            $testingResult = mysqli_query($conn, $testingSelectQuery);
+                            if (!$result) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
 
-                            if (mysqli_num_rows($testingResult) > 0) {
-                                // Update the existing record
-                                $testingUpdateQuery = "UPDATE TestingData SET
-                                                        PrevTotalPointViolations = '$row[PrevTotalPointViolations]',
-                                                        PrevTotalViolations = '$row[PrevTotalViolations]',
-                                                        PrevTotalPointAchievements = '$row[PrevTotalPointAchievements]',
-                                                        PrevTotalAchievements = '$row[PrevTotalAchievements]',
-                                                        TotalPointViolations = '$row[TotalPointViolations]',
-                                                        TotalViolations = '$row[TotalViolations]',
-                                                        TotalPointAchievements = '$row[TotalPointAchievements]',
-                                                        TotalAchievements = '$row[TotalAchievements]',
-                                                        TotalDifference = '$totalDif'
-                                                        WHERE StudentID = '$row[StudentID]'";
-                                mysqli_query($conn, $testingUpdateQuery);
-                            } elseif ($row['TotalDifference'] > 0) {
-                                // Insert the new record only if TotalDifference is greater than or equal to 0
-                                $testingInsertQuery = "INSERT INTO TestingData (StudentID, PrevTotalPointViolations, PrevTotalViolations, PrevTotalPointAchievements, PrevTotalAchievements, TotalPointViolations, TotalViolations, TotalPointAchievements, TotalAchievements, TotalDifference)
-                                                        VALUES ('$row[StudentID]', '$row[PrevTotalPointViolations]', '$row[PrevTotalViolations]', '$row[PrevTotalPointAchievements]', '$row[PrevTotalAchievements]', '$row[TotalPointViolations]', '$row[TotalViolations]', '$row[TotalPointAchievements]', '$row[TotalAchievements]', '$row[TotalDifference]')";
-                                mysqli_query($conn, $testingInsertQuery);
-                            }
-                        }
-                        ?>
-                        <!-- End Display Total Points (Violations and Achievements) -->
-                        <table class="min-w-full bg-white border border-gray-300">
-                            <thead>
-                                <tr>
-                                    <th class="py-2 px-4 border-b">No</th>
-                                    <th class="py-2 px-4 border-b">Student Name</th>
-                                    <th class="py-2 px-4 border-b"><i class="fa-solid fa-skull-crossbones"></i></th>
-                                    <th class="py-2 px-4 border-b"><i class="fa-solid fa-trophy"></i></th>
-                                    <th class="py-2 px-4 border-b"><i class="fa-solid fa-coins"></i></th>
-                                    <th class="py-2 px-4 border-b"><?php echo $prevSemester ?>/<?php echo $prevYear ?> <i class="fa-solid fa-skull-crossbones"></i></th>
-                                    <th class="py-2 px-4 border-b"><?php echo $prevSemester ?>/<?php echo $prevYear ?> <i class="fa-solid fa-trophy"></i></th>
-                                    <th class="py-2 px-4 border-b"><?php echo $selectedSemester ?>/<?php echo $selectedYear ?><i class="fa-solid fa-skull-crossbones"></i></th>
-                                    <th class="py-2 px-4 border-b"><?php echo $selectedSemester ?>/<?php echo $selectedYear ?><i class="fa-solid fa-trophy"></i></th>
-                                    <th class="py-2 px-4 border-b"><?php echo $selectedSemester ?>/<?php echo $selectedYear ?><i class="fa-solid fa-coins"></i>(Last)</th>
-                                    <th class="py-2 px-4 border-b">Follow Up Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $no = 0;
-                            // Fetch data from MasterViolationHandlings
-                            $masterViolationHandlings = fetchMasterViolationHandlings();
-                            foreach ($studentData as $studentInfo) {
-                                $no++;
-                                // Check if TotalDifference is greater than 0
-                                if ($studentInfo['TotalDifference'] > 0) {
+                                // Display table data
+                                while ($row = mysqli_fetch_assoc($result)) {
+
+                                    // Append only the displayed data to the array
+                                    $rowData = array(
+                                        'DataID' => $row['DataID'],
+                                        'StudentID' => $row['StudentID'],
+                                        'StudentNumber' => $row['StudentNumber'],
+                                        'StudentName' => $row['StudentName'],
+                                        'Semester' => $row['Semester'],
+                                        'Year' => $row['Year'],
+                                        'ViolationIDs' => ($row['ViolationIDs'] ? $row['ViolationIDs'] : '0'),
+                                        'AchievementIDs' => ($row['AchievementIDs'] ? $row['AchievementIDs'] : '0'),
+                                        'TotalViolations' => $row['TotalViolations'],
+                                        'TotalAchievements' => $row['TotalAchievements'],
+                                        'TotalPointViolations' => $row['TotalPointViolations'],
+                                        'TotalPointAchievements' => $row['TotalPointAchievements'],
+                                        'TotalDifference' => $row['TotalDifference'],
+                                        'HandlingID' => $row['HandlingID']
+                                    );
+
+                                    $dataArray[] = $rowData;
+                                }
+
+                                echo '<div class="flex flex-col w-full">';
+
+                                // Step 1: Count Total Data (n)
+                                $totalData = count($dataArray);
+
+                                // Step 2: Count Handling Data
+                                $handlingCounts = array_count_values(array_column($dataArray, 'HandlingID'));
+
+                                // Step 3: Calculate Prior Probabilities
+                                $priorProbabilities = array();
+                                foreach ($handlingCounts as $handlingID => $count) {
+                                    $priorProbabilities[$handlingID] = $count / $totalData;
+                                }
+
+                                // Step 4: Calculate Conditional Probabilities
+                                $conditionalProbabilities = array();
+                                $features = ['ViolationIDs', 'AchievementIDs', 'TotalViolations', 'TotalAchievements', 'TotalPointViolations', 'TotalPointAchievements', 'TotalDifference'];
+
+                                foreach ($features as $feature) {
+                                    foreach ($handlingCounts as $handlingID => $count) {
+                                        $featureCounts = array_count_values(array_column($dataArray, $feature, 'HandlingID'));
+                                        $conditionalProbabilities[$feature][$handlingID] = array();
+
+                                        foreach (array_unique(array_column($dataArray, $feature)) as $value) {
+                                            // Check if the key exists before accessing it
+                                            if (isset($featureCounts[$handlingID][$value])) {
+                                                $conditionalProbabilities[$feature][$handlingID][$value] = ($featureCounts[$handlingID][$value] + 1) / ($count + count(array_unique(array_column(
+                                                    $dataArray,
+                                                    $feature
+                                                ))));
+                                            } else {
+                                                $conditionalProbabilities[$feature][$handlingID][$value] = 1 / ($count + count(array_unique(array_column($dataArray, $feature))));
+                                            }
+                                        }
+                                    }
+                                }
+
+                                echo '<div class="flex flex-col w-full">';
+
+                                // Testing with $dataArrayTest
+                                // echo '<h2 class="text-xl font-semibold mb-2 mt-4">Testing with $dataArrayTest</h2>';
+                                echo '<table class="table-auto">';
+                                echo '<thead>';
+                                echo '<tr>';
+                                echo '<th class="border px-4 py-2">Student Name</th>';
+                                echo '<th class="border px-4 py-2">Semester</th>';
+                                echo '<th class="border px-4 py-2">Year</th>';
+                                echo '<th class="border px-4 py-2">Violation IDs</th>';
+                                echo '<th class="border px-4 py-2">Achievement IDs</th>';
+                                echo '<th class="border px-4 py-2">Total Violations</th>';
+                                echo '<th class="border px-4 py-2">Total Achievements</th>';
+                                echo '<th class="border px-4 py-2">Total Point Violations</th>';
+                                echo '<th class="border px-4 py-2">Total Point Achievements</th>';
+                                echo '<th class="border px-4 py-2">Total Difference</th>';
+                                // echo '<th class="border px-4 py-2">Actual HandlingID</th>';
+                                echo '<th class="border px-4 py-2">Predicted HandlingID</th>';
+                                echo '<th class="border px-4 py-2">Handling Category</th>';
+                                echo '</tr>';
+                                echo '</thead>';
+                                echo '<tbody>';
+
+                                // Fetch ViolationHandling data and store it in an associative array
+                                $sql = "SELECT `HandlingID`, `ViolationCategory`, `ScoreRangeBottom`, `ScoreRangeTop`, `FollowUpAction` FROM `MasterViolationHandlings`";
+                                $resultViolationHandling = mysqli_query($conn, $sql);
+
+                                $violationHandlingData = array();
+
+                                while ($row = mysqli_fetch_assoc($resultViolationHandling)) {
+                                    $violationHandlingData[] = $row;
+                                }
+
+                                // Bagian Prediksinya
+
+                                foreach ($dataArrayTest as $testData) {
+                                    // Initialize probabilities
+                                    $predictedProbabilities = array();
+                                    $predictedHandlingID_ = $testData['HandlingID'];
+
+                                    // Calculate posterior probabilities for each HandlingID
+                                    foreach ($handlingCounts as $handlingID => $count) {
+                                        $predictedProbabilities[$handlingID] = $priorProbabilities[$handlingID];
+
+                                        foreach ($features as $feature) {
+                                            // Check if the key exists before accessing it
+                                            if (isset($conditionalProbabilities[$feature][$handlingID][$testData[$feature]])) {
+                                                $predictedProbabilities[$handlingID] *= $conditionalProbabilities[$feature][$handlingID][$testData[$feature]];
+                                            } else {
+                                                $predictedProbabilities[$handlingID] *= 1 / ($count + count(array_unique(array_column($dataArray, $feature))));
+                                            }
+                                        }
+                                    }
+
+                                    // Get the predicted HandlingID with the maximum probability
+                                    $predictedHandlingID = array_keys($predictedProbabilities, max($predictedProbabilities))[0];
+
+                                    // Display results
                                     echo '<tr>';
-                                    echo '<td>'.$no.'</td>';
-                                    echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $studentInfo['StudentID'] . '">' . $studentInfo['StudentName'] . ' (' . $studentInfo['StudentNumber'] . ')</a></td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['AllPrevTotalPointViolations'] . ' (' . $studentInfo['AllPrevTotalViolations'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['AllPrevTotalPointAchievements'] . ' (' . $studentInfo['AllPrevTotalAchievements'] . ')</td>';
-
-                                    // Check if handling is needed
-                                    $handlingNeeded = checkHandlingNeeded($studentInfo['AllPrevTotalDifference']);
-
-                                    // Output the appropriate icon or cross mark
-                                    if ($handlingNeeded) {
-                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-green-500">' . $studentInfo['AllPrevTotalDifference'] . ' <i class="fa-solid fa-check"></i></a></td>';
-                                    } else {
-                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-red-500">' . $studentInfo['AllPrevTotalDifference'] . ' <i class="fa-solid fa-times"></i></a></td>';
-                                    }
-
-                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['PrevTotalPointViolations'] . ' (' . $studentInfo['PrevTotalViolations'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['PrevTotalPointAchievements'] . ' (' . $studentInfo['PrevTotalAchievements'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['TotalPointViolations'] . ' (' . $studentInfo['TotalViolations'] . ')</td>';
-                                    echo '<td class="py-2 px-4 border-b">' . $studentInfo['TotalPointAchievements'] . ' (' . $studentInfo['TotalAchievements'] . ')</td>';
-                                    // Check if handling is needed
-                                    $handlingNeeded = checkHandlingNeeded($studentInfo['TotalDifference']);
-
-                                    // Output the appropriate icon or cross mark
-                                    if ($handlingNeeded) {
-                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-green-500">' . $studentInfo['TotalDifference'] . ' <i class="fa-solid fa-check"></i></a></td>';
-                                    } else {
-                                        echo '<td class="py-2 px-4 border-b"><a href="#" class="text-red-500">' . $studentInfo['TotalDifference'] . ' <i class="fa-solid fa-times"></i></a></td>';
-                                    }
-                                    echo '<td class="py-2 px-4 border-b">';
-                                    if ($handlingNeeded) {
-                                        $followUpAction = getFollowUpAction($masterViolationHandlings, $studentInfo['TotalDifference']);
-                                        // Set default classes
-                                        $buttonClasses = 'sweet-alert-btn text-white text-xs font-bold py-2 px-4 rounded';
-                                        $iconClasses = 'fas fa-exclamation-circle mr-2';
+                                    echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $testData['StudentID'] . '">' . $testData['StudentName'] . ' (' . $testData['StudentNumber'] . ')</a></td>';
+                                    echo '<td class="border px-4 py-2">' . $testData['Semester'] . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $testData['Year'] . '</td>';
+                                    echo '<td class="border px-4 py-2">' . ($testData['ViolationIDs'] ? $testData['ViolationIDs'] : '0') . '</td>';
+                                    echo '<td class="border px-4 py-2">' . ($testData['AchievementIDs'] ? $testData['AchievementIDs'] : '0') . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $testData['TotalViolations'] . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $testData['TotalAchievements'] . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $testData['TotalPointViolations'] . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $testData['TotalPointAchievements'] . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $testData['TotalDifference'] . '</td>';
+                                    // echo '<td class="border px-4 py-2">' . $testData['HandlingID'] . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $predictedHandlingID_ . '</td>';
+                                    echo '<td class="border px-4 py-2">';
+                                    // Display buttons for each ViolationCategory
+                                    $buttonClasses = 'sweet-alert-btn text-white font-bold py-2 px-4 rounded';
+                                    $iconClasses = 'fas fa-exclamation-circle mr-2';
+                                    $foundMatchingHandling = false;
+                                    foreach ($violationHandlingData as $row) {
+                                        $violationCategory = $row['ViolationCategory'];
+                                        $FollowUpAction = $row['FollowUpAction'];
+                                        $handlingID = $row['HandlingID'];
 
                                         // Set color based on ViolationCategory
-                                        switch ($followUpAction['ViolationCategory']) {
+                                        switch ($violationCategory) {
                                             case 'Ringan':
                                                 $buttonClasses .= ' bg-green-500'; // Green color for Ringan
                                                 break;
@@ -355,24 +301,159 @@ $result = mysqli_query($conn, $query);
                                                 $buttonClasses .= ' bg-blue-500'; // Default color for other categories
                                         }
 
-                                        // Output the button
-                                        echo '<button class="' . $buttonClasses . '" data-student-id="' . $studentInfo['StudentID'] . '" data-category="'.$followUpAction['ViolationCategory'] .'" data-follow-up="'.$followUpAction['FollowUpAction'] .'">
-                                        <i class="' . $iconClasses . '"></i>' . $followUpAction['ViolationCategory'] . '
+                                        // Use the predictedHandlingID_ to find the corresponding HandlingID
+                                        if ($predictedHandlingID_ == $handlingID) {
+                                            echo '<button class="' . $buttonClasses . '" data-student-id="' . $testData['StudentID'] . '" data-category="' . $violationCategory . '" data-follow-up="' . $FollowUpAction . '"><i class="' . $iconClasses . '"></i>' . $violationCategory . '
                                         </button>';
-
-
-                                    } else {
+                                            $foundMatchingHandling = true;
+                                            break; // Exit the loop once a match is found
+                                        }
+                                    }
+                                    // If no matching HandlingID is found, display "No Action"
+                                    if (!$foundMatchingHandling) {
                                         echo 'No Action';
                                     }
-                                    echo '</td>';
+
 
                                     echo '</td>';
+                                    echo '</tr>';
+                                }
+
+                                echo '</tbody>';
+                                echo '</table>';
+                                echo '</div>';
+
+                                echo '</div>';
+
+                                // Display results of Step 1: Count Total Data (n)
+                                echo '<h2 class="text-xl font-semibold mb-2">Step 1: Count Total Data (n)</h2>';
+                                echo '<table class="table-auto">';
+                                echo '<thead>';
+                                echo '<tr>';
+                                echo '<th class="border px-4 py-2">Total Data (n)</th>';
+                                echo '</tr>';
+                                echo '</thead>';
+                                echo '<tbody>';
+                                echo '<tr>';
+                                echo '<td class="border px-4 py-2">' . $totalData . '</td>';
+                                echo '</tr>';
+                                echo '</tbody>';
+                                echo '</table>';
+
+                                echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 2: Count Handling Data</h2>';
+                                echo '<table class="table-auto">';
+                                echo '<thead>';
+                                echo '<tr>';
+                                echo '<th class="border px-4 py-2">HandlingID</th>';
+                                echo '<th class="border px-4 py-2">Count</th>';
+                                echo '<th class="border px-4 py-2">ViolationCategory</th>';
+                                echo '<th class="border px-4 py-2">ScoreRangeBottom</th>';
+                                echo '<th class="border px-4 py-2">ScoreRangeTop</th>';
+                                echo '<th class="border px-4 py-2">FollowUpAction</th>';
+                                echo '</tr>';
+                                echo '</thead>';
+                                echo '<tbody>';
+
+                                foreach ($handlingCounts as $handlingID => $count) {
+                                    echo '<tr>';
+                                    echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $count . '</td>';
+
+                                    // Find matching data from MasterViolationHandlings based on HandlingID
+                                    $matchingHandlingData = array_filter($violationHandlingData, function ($data) use ($handlingID) {
+                                        return $data['HandlingID'] == $handlingID;
+                                    });
+
+                                    if (!empty($matchingHandlingData)) {
+                                        $matchingData = reset($matchingHandlingData); // Get the first matching data
+
+                                        // Display additional information
+                                        echo '<td class="border px-4 py-2">' . $matchingData['ViolationCategory'] . '</td>';
+                                        echo '<td class="border px-4 py-2">' . $matchingData['ScoreRangeBottom'] . '</td>';
+                                        echo '<td class="border px-4 py-2">' . $matchingData['ScoreRangeTop'] . '</td>';
+                                        echo '<td class="border px-4 py-2">' . $matchingData['FollowUpAction'] . '</td>';
+                                    } else {
+                                        // If no matching data found, display placeholders
+                                        echo '<td class="border px-4 py-2">N/A</td>';
+                                        echo '<td class="border px-4 py-2">N/A</td>';
+                                        echo '<td class="border px-4 py-2">N/A</td>';
+                                        echo '<td class="border px-4 py-2">N/A</td>';
+                                    }
+
+                                    echo '</tr>';
+                                }
+
+                                echo '</tbody>';
+                                echo '</table>';
+
+                                echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 3: Calculate Prior Probabilities</h2>';
+                                echo '<table class="table-auto">';
+                                echo '<thead>';
+                                echo '<tr>';
+                                echo '<th class="border px-4 py-2">HandlingID</th>';
+                                echo '<th class="border px-4 py-2">Prior Probability</th>';
+                                echo '<th class="border px-4 py-2">ViolationCategory</th>'; // New column for ViolationCategory
+                                echo '</tr>';
+                                echo '</thead>';
+                                echo '<tbody>';
+
+                                foreach ($priorProbabilities as $handlingID => $probability) {
+                                    echo '<tr>';
+                                    echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
+                                    echo '<td class="border px-4 py-2">' . $probability . '</td>';
+
+                                    // Find matching data from MasterViolationHandlings based on HandlingID
+                                    $matchingHandlingData = array_filter($violationHandlingData, function ($data) use ($handlingID) {
+                                        return $data['HandlingID'] == $handlingID;
+                                    });
+
+                                    if (!empty($matchingHandlingData)) {
+                                        $matchingData = reset($matchingHandlingData); // Get the first matching data
+
+                                        // Display ViolationCategory
+                                        echo '<td class="border px-4 py-2">' . $matchingData['ViolationCategory'] . '</td>';
+                                    } else {
+                                        // If no matching data found, display "N/A" as a placeholder
+                                        echo '<td class="border px-4 py-2">N/A</td>';
+                                    }
+
+                                    echo '</tr>';
+                                }
+
+                                echo '</tbody>';
+                                echo '</table>';
+
+
+                                echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 4: Calculate Conditional Probabilities</h2>';
+                                foreach ($features as $feature) {
+                                    echo '<h3 class="text-lg font-semibold mb-2">' . $feature . '</h3>';
+                                    echo '<table class="table-auto">';
+                                    echo '<thead>';
+                                    echo '<tr>';
+                                    echo '<th class="border px-4 py-2">HandlingID</th>';
+                                    echo '<th class="border px-4 py-2">Feature Value</th>';
+                                    echo '<th class="border px-4 py-2">Conditional Probability</th>';
+                                    echo '</tr>';
+                                    echo '</thead>';
+                                    echo '<tbody>';
+
+                                    foreach ($handlingCounts as $handlingID => $count) {
+                                        foreach (array_unique(array_column($dataArray, $feature)) as $value) {
+                                            echo '<tr>';
+                                            echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
+                                            echo '<td class="border px-4 py-2">' . $value . '</td>';
+                                            echo '<td class="border px-4 py-2">' . $conditionalProbabilities[$feature][$handlingID][$value] . '</td>';
+                                            echo '</tr>';
+                                        }
+                                    }
+
+                                    echo '</tbody>';
+                                    echo '</table>';
                                 }
                             }
                             ?>
-                            </tbody>
-                        </table>
-                        <!-- End Display Total Points (Violations and Achievements) -->
+                        </div>
+                        <!-- End Display SemesterResultsTraining Table -->
                     </div>
                     <!-- End Content -->
                 </div>
@@ -397,38 +478,38 @@ $result = mysqli_query($conn, $query);
             window.location.href = url;
         }
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Add event listener to all elements with class sweet-alert-btn
-        var buttons = document.querySelectorAll('.sweet-alert-btn');
-        buttons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                // Retrieve category from data-category attribute
-                var category = button.getAttribute('data-category');
-                // Retrieve student ID from data-student-id attribute
-                var studentID = button.getAttribute('data-student-id');
-                var followUPing = button.getAttribute('data-follow-up');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listener to all elements with class sweet-alert-btn
+            var buttons = document.querySelectorAll('.sweet-alert-btn');
+            buttons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Retrieve category from data-category attribute
+                    var category = button.getAttribute('data-category');
+                    // Retrieve student ID from data-student-id attribute
+                    var studentID = button.getAttribute('data-student-id');
+                    var followUPing = button.getAttribute('data-follow-up');
 
-                // Make an AJAX request to fetch student data
-                fetchStudentData(studentID, category, followUPing);
+                    // Make an AJAX request to fetch student data
+                    fetchStudentData(studentID, category, followUPing);
+                });
             });
-        });
 
-        function fetchStudentData(studentID, category, followUPing) {
-            // You can use any AJAX library or the native fetch API for the request
-            // Here, I'll use the fetch API for simplicity
-            fetch('fetch_student_data.php?student_id=' + studentID)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Fetched student data:', data);
+            function fetchStudentData(studentID, category, followUPing) {
+                // You can use any AJAX library or the native fetch API for the request
+                // Here, I'll use the fetch API for simplicity
+                fetch('fetch_student_data.php?student_id=' + studentID)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Fetched student data:', data);
 
-                    // Format student information into a table
-                    const tableHtml = `
+                        // Format student information into a table
+                        const tableHtml = `
                     <table class="table-auto">
                         <tbody>
                             <tr>
@@ -463,34 +544,34 @@ $result = mysqli_query($conn, $query);
                     </table>
                     `;
 
-                    // Format Follow-Up Action
-                    const followUpActionHtml = `
+                        // Format Follow-Up Action
+                        const followUpActionHtml = `
                         <div class="mt-4">
                             <strong>Follow-Up Action:</strong> ${followUPing}
                         </div>
                     `;
 
-                    // Combine table and Follow-Up Action
-                    const contentHtml = tableHtml + followUpActionHtml;
+                        // Combine table and Follow-Up Action
+                        const contentHtml = tableHtml + followUpActionHtml;
 
-                    // Display Sweet Alert with the formatted table and Follow-Up Action
-                    Swal.fire({
-                        title: 'Follow-Up Action',
-                        html: contentHtml,
-                        icon: 'info'
+                        // Display Sweet Alert with the formatted table and Follow-Up Action
+                        Swal.fire({
+                            title: 'Follow-Up Action',
+                            html: contentHtml,
+                            icon: 'info'
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching student data:', error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Failed to fetch student data. Please try again.',
+                            icon: 'error'
+                        });
                     });
-                })
-                .catch(error => {
-                    console.error('Error fetching student data:', error);
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Failed to fetch student data. Please try again.',
-                        icon: 'error'
-                    });
-                });
-        }
-    });
-</script>
+            }
+        });
+    </script>
 </body>
 
 </html>
