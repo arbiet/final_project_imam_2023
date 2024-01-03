@@ -121,14 +121,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         // Fetch the list of teachers who are not homeroom teachers
                         $query = "SELECT Teachers.TeacherID, Users.FullName, Teachers.AcademicDegree
-                        FROM Teachers
-                        INNER JOIN Users ON Teachers.UserID = Users.UserID
-                        WHERE Teachers.TeacherID NOT IN (SELECT HomeroomTeacher FROM Classes)";
+                            FROM Teachers
+                            INNER JOIN Users ON Teachers.UserID = Users.UserID
+                            LEFT JOIN Classes ON Teachers.TeacherID = Classes.HomeroomTeacher
+                            WHERE Classes.HomeroomTeacher IS NULL;
+                            ";
 
-                        $result = $conn->query($query);
+                        $resultTeacher = $conn->query($query);
 
                         // Check for errors in the database query
-                        if (!$result) {
+                        if (!$resultTeacher) {
                             die("Database query failed: " . $conn->error);
                         }
 
@@ -142,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <select id="homeroom_teacher" name="homeroom_teacher" class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
                             <?php
                             // Iterate through the retrieved teachers and populate the select field
-                            while ($row = $result->fetch_assoc()) {
+                            while ($row = $resultTeacher->fetch_assoc()) {
                                 $teacherID = $row['TeacherID'];
                                 $teacherName = $row['FullName'];
                                 $AcademicDegree = $row['AcademicDegree'];

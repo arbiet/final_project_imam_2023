@@ -4,60 +4,6 @@ session_start();
 // Include the connection file
 require_once('../../database/connection.php');
 
-// Initialize variables
-$username = $password = '';
-$errors = array();
-
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the user inputs
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Perform basic validation
-    if (empty($username)) {
-        $errors['username'] = 'Username is required.';
-    }
-    if (empty($password)) {
-        $errors['password'] = 'Password is required.';
-    }
-
-    // If no errors, proceed with login
-    if (empty($errors)) {
-        // Hash the password for comparison
-        $hashed_password = hash('sha256', $password);
-
-        // Prepare and execute a query to check user credentials
-        $query = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param('ss', $username, $hashed_password);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Check if user exists
-        if ($result->num_rows === 1) {
-            // Perform login actions (e.g., set sessions, redirect, etc.)
-            $row = $result->fetch_assoc();
-            $_SESSION['UserID'] = $row['UserID'];
-            $_SESSION['Username'] = $row['Username'];
-            $_SESSION['RoleID'] = $row['RoleID'];
-            $_SESSION['Email'] = $row['Email'];
-            $_SESSION['FullName'] = $row['FullName'];
-
-            // Redirect to a dashboard or homepage
-            header('Location: systems/dashboard.php');
-            exit();
-        } else {
-            $errors['login_failed'] = 'Invalid username or password.';
-        }
-
-        // Close the statement
-        $stmt->close();
-    }
-}
-
-// Close the database connection
-$conn->close();
 ?>
 
 <?php include('../components/header.php'); ?>

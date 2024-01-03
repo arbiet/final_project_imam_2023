@@ -3,6 +3,29 @@
 require_once('../../database/connection.php');
 require_once('getData.php');
 
+$userID = $_SESSION['UserID'];
+
+if ($_SESSION['RoleID'] == 2) {
+    // Get TeacherID using UserID
+    $queryTeacher = "SELECT TeacherID FROM Teachers WHERE UserID = $userID";
+    $resultTeacher = mysqli_query($conn, $queryTeacher);
+    $teacher = mysqli_fetch_assoc($resultTeacher);
+    $teacherID = $teacher['TeacherID'];
+    $classID = $className = $educationLevel = '';
+
+    // Get Class information based on HomeroomTeacher = TeacherID
+    $queryClasses = "SELECT `ClassID`, `ClassName`, `EducationLevel`, `HomeroomTeacher`, `Curriculum`, `AcademicYear`, `ClassCode` FROM `Classes` WHERE HomeroomTeacher = $teacherID";
+    $resultClasses = mysqli_query($conn, $queryClasses);
+
+    // Now you can fetch and use the results from $resultClasses
+    while ($class = mysqli_fetch_assoc($resultClasses)) {
+        $classID = $class['ClassID'];
+        $className = $class['ClassName'];
+        $educationLevel = $class['EducationLevel'];
+    }
+}
+
+
 // Initialize variables
 $errors = array();
 
@@ -95,20 +118,31 @@ $prevYear = ($selectedSemester == 1) ? $selectedYear - 1 : $selectedYear;
                             <h2 class="text-xl font-semibold mb-2">SemesterResultsTraining Data</h2>
 
                             <?php
+
                             // Fetch data from SemesterResultsTraining table
                             $query = "SELECT `DataID`, `Semester`, `Year`, `PrevYear`, `StartMonth`, `EndMonth`, `PrevStartMonth`, `PrevEndMonth`, `PreSemester`, `StudentID`, `StudentNumber`, `StudentName`, `ViolationIDs`, `AchievementIDs`, `TotalViolations`, `TotalAchievements`, `TotalPointViolations`, `TotalPointAchievements`, `TotalDifference`, `PrevTotalViolations`, `PrevTotalAchievements`, `PrevTotalPointViolations`, `PrevTotalPointAchievements`, `AllPrevTotalViolations`, `AllPrevTotalAchievements`, `AllPrevTotalPointViolations`, `AllPrevTotalPointAchievements`, `AllPrevTotalDifference`, `HandlingID` FROM `SemesterResultsTraining`";
-
                             $result = mysqli_query($conn, $query);
 
                             // Fetch data from SemesterResultsTraining table
-                            $query = "SELECT `DataID`, `Semester`, `Year`, `PrevYear`, `StartMonth`, `EndMonth`, `PrevStartMonth`, `PrevEndMonth`, `PreSemester`, `StudentID`, `StudentNumber`, `StudentName`, `ViolationIDs`, `AchievementIDs`, `TotalViolations`, `TotalAchievements`, `TotalPointViolations`, `TotalPointAchievements`, `TotalDifference`, `PrevTotalViolations`, `PrevTotalAchievements`, `PrevTotalPointViolations`, `PrevTotalPointAchievements`, `AllPrevTotalViolations`, `AllPrevTotalAchievements`, `AllPrevTotalPointViolations`, `AllPrevTotalPointAchievements`, `AllPrevTotalDifference`, `HandlingID` FROM `SemesterResultsTraining` 
+                            $queryTest = "SELECT `DataID`, `Semester`, `Year`, `PrevYear`, `StartMonth`, `EndMonth`, `PrevStartMonth`, `PrevEndMonth`, `PreSemester`, `StudentID`, `StudentNumber`, `StudentName`, `ViolationIDs`, `AchievementIDs`, `TotalViolations`, `TotalAchievements`, `TotalPointViolations`, `TotalPointAchievements`, `TotalDifference`, `PrevTotalViolations`, `PrevTotalAchievements`, `PrevTotalPointViolations`, `PrevTotalPointAchievements`, `AllPrevTotalViolations`, `AllPrevTotalAchievements`, `AllPrevTotalPointViolations`, `AllPrevTotalPointAchievements`, `AllPrevTotalDifference`, `HandlingID` FROM `SemesterResultsTraining`
                             WHERE `Year` = '$selectedYear' AND `Semester` = '$selectedSemester'";
+
+                            // Check if the user is a Teacher and filter students based on class
+                            if ($_SESSION['RoleID'] == 2) {
+                                $queryTest .= " AND `StudentID` IN (
+                                SELECT `StudentID`
+                                FROM `Students`
+                                WHERE `ClassID` = '$classID'
+                            )";
+                            }
+
+                            $resultTest = mysqli_query($conn, $queryTest);
+
 
                             // Initialize an array to store data
                             $dataArray = array();
                             $dataArrayTest = array();
 
-                            $resultTest = mysqli_query($conn, $query);
                             if (!$resultTest) {
                                 echo "Error fetching data: " . mysqli_error($conn);
                             } else {
@@ -211,19 +245,19 @@ $prevYear = ($selectedSemester == 1) ? $selectedYear - 1 : $selectedYear;
                                 echo '<table class="table-auto">';
                                 echo '<thead>';
                                 echo '<tr>';
-                                echo '<th class="border px-4 py-2">Student Name</th>';
-                                echo '<th class="border px-4 py-2">Semester</th>';
-                                echo '<th class="border px-4 py-2">Year</th>';
-                                echo '<th class="border px-4 py-2">Violation IDs</th>';
-                                echo '<th class="border px-4 py-2">Achievement IDs</th>';
-                                echo '<th class="border px-4 py-2">Total Violations</th>';
-                                echo '<th class="border px-4 py-2">Total Achievements</th>';
-                                echo '<th class="border px-4 py-2">Total Point Violations</th>';
-                                echo '<th class="border px-4 py-2">Total Point Achievements</th>';
-                                echo '<th class="border px-4 py-2">Total Difference</th>';
-                                // echo '<th class="border px-4 py-2">Actual HandlingID</th>';
-                                echo '<th class="border px-4 py-2">Predicted HandlingID</th>';
-                                echo '<th class="border px-4 py-2">Handling Category</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Student Name</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Semester</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Year</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Violation IDs</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Achievement IDs</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Total Violations</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Total Achievements</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Total Point Violations</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Total Point Achievements</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Total Difference</th>';
+                                // echo '<th class="border px-1 py-1 text-xs">Actual HandlingID</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Predicted HandlingID</th>';
+                                echo '<th class="border px-1 py-1 text-xs">Handling Category</th>';
                                 echo '</tr>';
                                 echo '</thead>';
                                 echo '<tbody>';
@@ -264,7 +298,7 @@ $prevYear = ($selectedSemester == 1) ? $selectedYear - 1 : $selectedYear;
 
                                     // Display results
                                     echo '<tr>';
-                                    echo '<td class="py-2 px-4 border-b"><a href="manage_student_violationhandlings_detail.php?student_id=' . $testData['StudentID'] . '">' . $testData['StudentName'] . ' (' . $testData['StudentNumber'] . ')</a></td>';
+                                    echo '<td class="py-2 px-4 border-b text-xs"><a href="manage_student_violationhandlings_detail.php?student_id=' . $testData['StudentID'] . '">' . $testData['StudentName'] . ' (' . $testData['StudentNumber'] . ')</a></td>';
                                     echo '<td class="border px-4 py-2">' . $testData['Semester'] . '</td>';
                                     echo '<td class="border px-4 py-2">' . $testData['Year'] . '</td>';
                                     echo '<td class="border px-4 py-2">' . ($testData['ViolationIDs'] ? $testData['ViolationIDs'] : '0') . '</td>';
@@ -278,7 +312,7 @@ $prevYear = ($selectedSemester == 1) ? $selectedYear - 1 : $selectedYear;
                                     echo '<td class="border px-4 py-2">' . $predictedHandlingID_ . '</td>';
                                     echo '<td class="border px-4 py-2">';
                                     // Display buttons for each ViolationCategory
-                                    $buttonClasses = 'sweet-alert-btn text-white font-bold py-2 px-4 rounded';
+                                    $buttonClasses = 'sweet-alert-btn text-white text-xs flex font-bold py-2 px-4 rounded';
                                     $iconClasses = 'fas fa-exclamation-circle mr-2';
                                     $foundMatchingHandling = false;
                                     foreach ($violationHandlingData as $row) {
@@ -325,130 +359,132 @@ $prevYear = ($selectedSemester == 1) ? $selectedYear - 1 : $selectedYear;
 
                                 echo '</div>';
 
-                                // Display results of Step 1: Count Total Data (n)
-                                echo '<h2 class="text-xl font-semibold mb-2">Step 1: Count Total Data (n)</h2>';
-                                echo '<table class="table-auto">';
-                                echo '<thead>';
-                                echo '<tr>';
-                                echo '<th class="border px-4 py-2">Total Data (n)</th>';
-                                echo '</tr>';
-                                echo '</thead>';
-                                echo '<tbody>';
-                                echo '<tr>';
-                                echo '<td class="border px-4 py-2">' . $totalData . '</td>';
-                                echo '</tr>';
-                                echo '</tbody>';
-                                echo '</table>';
-
-                                echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 2: Count Handling Data</h2>';
-                                echo '<table class="table-auto">';
-                                echo '<thead>';
-                                echo '<tr>';
-                                echo '<th class="border px-4 py-2">HandlingID</th>';
-                                echo '<th class="border px-4 py-2">Count</th>';
-                                echo '<th class="border px-4 py-2">ViolationCategory</th>';
-                                echo '<th class="border px-4 py-2">ScoreRangeBottom</th>';
-                                echo '<th class="border px-4 py-2">ScoreRangeTop</th>';
-                                echo '<th class="border px-4 py-2">FollowUpAction</th>';
-                                echo '</tr>';
-                                echo '</thead>';
-                                echo '<tbody>';
-
-                                foreach ($handlingCounts as $handlingID => $count) {
+                                if ($_SESSION['RoleID'] !== 2) {
+                                    // Display results of Step 1: Count Total Data (n)
+                                    echo '<h2 class="text-xl font-semibold mb-2">Step 1: Count Total Data (n)</h2>';
+                                    echo '<table class="table-auto">';
+                                    echo '<thead>';
                                     echo '<tr>';
-                                    echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
-                                    echo '<td class="border px-4 py-2">' . $count . '</td>';
-
-                                    // Find matching data from MasterViolationHandlings based on HandlingID
-                                    $matchingHandlingData = array_filter($violationHandlingData, function ($data) use ($handlingID) {
-                                        return $data['HandlingID'] == $handlingID;
-                                    });
-
-                                    if (!empty($matchingHandlingData)) {
-                                        $matchingData = reset($matchingHandlingData); // Get the first matching data
-
-                                        // Display additional information
-                                        echo '<td class="border px-4 py-2">' . $matchingData['ViolationCategory'] . '</td>';
-                                        echo '<td class="border px-4 py-2">' . $matchingData['ScoreRangeBottom'] . '</td>';
-                                        echo '<td class="border px-4 py-2">' . $matchingData['ScoreRangeTop'] . '</td>';
-                                        echo '<td class="border px-4 py-2">' . $matchingData['FollowUpAction'] . '</td>';
-                                    } else {
-                                        // If no matching data found, display placeholders
-                                        echo '<td class="border px-4 py-2">N/A</td>';
-                                        echo '<td class="border px-4 py-2">N/A</td>';
-                                        echo '<td class="border px-4 py-2">N/A</td>';
-                                        echo '<td class="border px-4 py-2">N/A</td>';
-                                    }
-
+                                    echo '<th class="border px-4 py-2">Total Data (n)</th>';
                                     echo '</tr>';
-                                }
-
-                                echo '</tbody>';
-                                echo '</table>';
-
-                                echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 3: Calculate Prior Probabilities</h2>';
-                                echo '<table class="table-auto">';
-                                echo '<thead>';
-                                echo '<tr>';
-                                echo '<th class="border px-4 py-2">HandlingID</th>';
-                                echo '<th class="border px-4 py-2">Prior Probability</th>';
-                                echo '<th class="border px-4 py-2">ViolationCategory</th>'; // New column for ViolationCategory
-                                echo '</tr>';
-                                echo '</thead>';
-                                echo '<tbody>';
-
-                                foreach ($priorProbabilities as $handlingID => $probability) {
+                                    echo '</thead>';
+                                    echo '<tbody>';
                                     echo '<tr>';
-                                    echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
-                                    echo '<td class="border px-4 py-2">' . $probability . '</td>';
-
-                                    // Find matching data from MasterViolationHandlings based on HandlingID
-                                    $matchingHandlingData = array_filter($violationHandlingData, function ($data) use ($handlingID) {
-                                        return $data['HandlingID'] == $handlingID;
-                                    });
-
-                                    if (!empty($matchingHandlingData)) {
-                                        $matchingData = reset($matchingHandlingData); // Get the first matching data
-
-                                        // Display ViolationCategory
-                                        echo '<td class="border px-4 py-2">' . $matchingData['ViolationCategory'] . '</td>';
-                                    } else {
-                                        // If no matching data found, display "N/A" as a placeholder
-                                        echo '<td class="border px-4 py-2">N/A</td>';
-                                    }
-
+                                    echo '<td class="border px-4 py-2">' . $totalData . '</td>';
                                     echo '</tr>';
-                                }
+                                    echo '</tbody>';
+                                    echo '</table>';
 
-                                echo '</tbody>';
-                                echo '</table>';
-
-
-                                echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 4: Calculate Conditional Probabilities</h2>';
-                                foreach ($features as $feature) {
-                                    echo '<h3 class="text-lg font-semibold mb-2">' . $feature . '</h3>';
+                                    echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 2: Count Handling Data</h2>';
                                     echo '<table class="table-auto">';
                                     echo '<thead>';
                                     echo '<tr>';
                                     echo '<th class="border px-4 py-2">HandlingID</th>';
-                                    echo '<th class="border px-4 py-2">Feature Value</th>';
-                                    echo '<th class="border px-4 py-2">Conditional Probability</th>';
+                                    echo '<th class="border px-4 py-2">Count</th>';
+                                    echo '<th class="border px-4 py-2">ViolationCategory</th>';
+                                    echo '<th class="border px-4 py-2">ScoreRangeBottom</th>';
+                                    echo '<th class="border px-4 py-2">ScoreRangeTop</th>';
+                                    echo '<th class="border px-4 py-2">FollowUpAction</th>';
                                     echo '</tr>';
                                     echo '</thead>';
                                     echo '<tbody>';
 
                                     foreach ($handlingCounts as $handlingID => $count) {
-                                        foreach (array_unique(array_column($dataArray, $feature)) as $value) {
-                                            echo '<tr>';
-                                            echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
-                                            echo '<td class="border px-4 py-2">' . $value . '</td>';
-                                            echo '<td class="border px-4 py-2">' . $conditionalProbabilities[$feature][$handlingID][$value] . '</td>';
-                                            echo '</tr>';
+                                        echo '<tr>';
+                                        echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
+                                        echo '<td class="border px-4 py-2">' . $count . '</td>';
+
+                                        // Find matching data from MasterViolationHandlings based on HandlingID
+                                        $matchingHandlingData = array_filter($violationHandlingData, function ($data) use ($handlingID) {
+                                            return $data['HandlingID'] == $handlingID;
+                                        });
+
+                                        if (!empty($matchingHandlingData)) {
+                                            $matchingData = reset($matchingHandlingData); // Get the first matching data
+
+                                            // Display additional information
+                                            echo '<td class="border px-4 py-2">' . $matchingData['ViolationCategory'] . '</td>';
+                                            echo '<td class="border px-4 py-2">' . $matchingData['ScoreRangeBottom'] . '</td>';
+                                            echo '<td class="border px-4 py-2">' . $matchingData['ScoreRangeTop'] . '</td>';
+                                            echo '<td class="border px-4 py-2">' . $matchingData['FollowUpAction'] . '</td>';
+                                        } else {
+                                            // If no matching data found, display placeholders
+                                            echo '<td class="border px-4 py-2">N/A</td>';
+                                            echo '<td class="border px-4 py-2">N/A</td>';
+                                            echo '<td class="border px-4 py-2">N/A</td>';
+                                            echo '<td class="border px-4 py-2">N/A</td>';
                                         }
+
+                                        echo '</tr>';
                                     }
 
                                     echo '</tbody>';
                                     echo '</table>';
+
+                                    echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 3: Calculate Prior Probabilities</h2>';
+                                    echo '<table class="table-auto">';
+                                    echo '<thead>';
+                                    echo '<tr>';
+                                    echo '<th class="border px-4 py-2">HandlingID</th>';
+                                    echo '<th class="border px-4 py-2">Prior Probability</th>';
+                                    echo '<th class="border px-4 py-2">ViolationCategory</th>'; // New column for ViolationCategory
+                                    echo '</tr>';
+                                    echo '</thead>';
+                                    echo '<tbody>';
+
+                                    foreach ($priorProbabilities as $handlingID => $probability) {
+                                        echo '<tr>';
+                                        echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
+                                        echo '<td class="border px-4 py-2">' . $probability . '</td>';
+
+                                        // Find matching data from MasterViolationHandlings based on HandlingID
+                                        $matchingHandlingData = array_filter($violationHandlingData, function ($data) use ($handlingID) {
+                                            return $data['HandlingID'] == $handlingID;
+                                        });
+
+                                        if (!empty($matchingHandlingData)) {
+                                            $matchingData = reset($matchingHandlingData); // Get the first matching data
+
+                                            // Display ViolationCategory
+                                            echo '<td class="border px-4 py-2">' . $matchingData['ViolationCategory'] . '</td>';
+                                        } else {
+                                            // If no matching data found, display "N/A" as a placeholder
+                                            echo '<td class="border px-4 py-2">N/A</td>';
+                                        }
+
+                                        echo '</tr>';
+                                    }
+
+                                    echo '</tbody>';
+                                    echo '</table>';
+
+
+                                    echo '<h2 class="text-xl font-semibold mb-2 mt-4">Step 4: Calculate Conditional Probabilities</h2>';
+                                    foreach ($features as $feature) {
+                                        echo '<h3 class="text-lg font-semibold mb-2">' . $feature . '</h3>';
+                                        echo '<table class="table-auto">';
+                                        echo '<thead>';
+                                        echo '<tr>';
+                                        echo '<th class="border px-4 py-2">HandlingID</th>';
+                                        echo '<th class="border px-4 py-2">Feature Value</th>';
+                                        echo '<th class="border px-4 py-2">Conditional Probability</th>';
+                                        echo '</tr>';
+                                        echo '</thead>';
+                                        echo '<tbody>';
+
+                                        foreach ($handlingCounts as $handlingID => $count) {
+                                            foreach (array_unique(array_column($dataArray, $feature)) as $value) {
+                                                echo '<tr>';
+                                                echo '<td class="border px-4 py-2">' . $handlingID . '</td>';
+                                                echo '<td class="border px-4 py-2">' . $value . '</td>';
+                                                echo '<td class="border px-4 py-2">' . $conditionalProbabilities[$feature][$handlingID][$value] . '</td>';
+                                                echo '</tr>';
+                                            }
+                                        }
+
+                                        echo '</tbody>';
+                                        echo '</table>';
+                                    }
                                 }
                             }
                             ?>
