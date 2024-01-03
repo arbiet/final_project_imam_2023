@@ -359,7 +359,7 @@ $prevYear = ($selectedSemester == 1) ? $selectedYear - 1 : $selectedYear;
 
                                 echo '</div>';
 
-                                if ($_SESSION['RoleID'] !== 2) {
+                                if ($_SESSION['RoleID'] !== 2 && $_SESSION['RoleID'] !== 4) {
                                     // Display results of Step 1: Count Total Data (n)
                                     echo '<h2 class="text-xl font-semibold mb-2">Step 1: Count Total Data (n)</h2>';
                                     echo '<table class="table-auto">';
