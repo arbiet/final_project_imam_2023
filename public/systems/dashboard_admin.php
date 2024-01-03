@@ -4,21 +4,33 @@ session_start();
 // Include the connection file
 require_once('../../database/connection.php');
 
+// Count total number of students in the class
+$queryTotalStudents = "SELECT COUNT(*) AS TotalStudents FROM Students";
+$resultTotalStudents = mysqli_query($conn, $queryTotalStudents);
+$totalStudents = mysqli_fetch_assoc($resultTotalStudents)['TotalStudents'];
+
+// Count number of male students in the class
+$queryMaleStudents = "SELECT COUNT(*) AS MaleStudents FROM Students
+                     INNER JOIN Users ON Students.UserID = Users.UserID
+                     WHERE Users.Gender = 'Male'";
+$resultMaleStudents = mysqli_query($conn, $queryMaleStudents);
+$maleStudents = mysqli_fetch_assoc($resultMaleStudents)['MaleStudents'];
+
+// Count number of female students in the class
+$queryFemaleStudents = "SELECT COUNT(*) AS FemaleStudents FROM Students
+                       INNER JOIN Users ON Students.UserID = Users.UserID
+                       WHERE Users.Gender = 'Female'";
+$resultFemaleStudents = mysqli_query($conn, $queryFemaleStudents);
+$femaleStudents = mysqli_fetch_assoc($resultFemaleStudents)['FemaleStudents'];
+
 ?>
 
 <?php include('../components/header.php'); ?>
-<!-- Main Content Height Menyesuaikan Hasil Kurang dari Header dan Footer -->
 <div class="h-screen flex flex-col">
-    <!-- Top Navbar -->
     <?php include('../components/navbar.php'); ?>
-    <!-- End Top Navbar -->
-    <!-- Main Content -->
     <div class="bg-gray-50 flex flex-row shadow-md">
-        <!-- Sidebar -->
         <?php include('../components/sidebar.php'); ?>
-        <!-- End Sidebar -->
-        <!-- Main Content -->
-        <main class=" bg-gray-50 flex flex-col flex-1">
+        <main class="bg-gray-50 flex flex-col flex-1 overflow-y-scroll h-screen flex-shrink-0 sc-hide pb-40">
             <div class="flex items-start justify-start p-6 shadow-md m-4 flex-1 flex-col">
                 <h1 class="text-3xl text-gray-800 font-semibold border-b border-gray-200 w-full">Dashboard</h1>
                 <h2 class="text-xl text-gray-800 font-semibold">
@@ -31,21 +43,31 @@ require_once('../../database/connection.php');
                     }
                     ?>
                 </h2>
-                <p class="text-gray-600">Here's what's happening with your projects today.</p>
-                <!-- Grafik -->
-                <div class="flex flex-row flex-wrap w-full space-x-2 mt-4 mb-4">
+                <p class="text-gray-600">Here's what's happening with your achievements and violations today.</p>
 
+                <div class="grid grid-rows-4 gap-4 mt-4 w-full">
+                    <div class="bg-blue-500 p-4 text-white rounded-md">
+                        <i class="fas fa-users fa-2x"></i>
+                        <p>Total Students</p>
+                        <p class="text-2xl font-semibold"><?php echo $totalStudents; ?></p>
+                    </div>
+
+                    <div class="bg-green-500 p-4 text-white rounded-md">
+                        <i class="fas fa-male fa-2x"></i>
+                        <p>Male Students</p>
+                        <p class="text-2xl font-semibold"><?php echo $maleStudents; ?></p>
+                    </div>
+                    <div class="bg-pink-500 p-4 text-white rounded-md">
+                        <i class="fas fa-female fa-2x"></i>
+                        <p>Female Students</p>
+                        <p class="text-2xl font-semibold"><?php echo $femaleStudents; ?></p>
+                    </div>
                 </div>
             </div>
         </main>
-        <!-- End Main Content -->
     </div>
-    <!-- End Main Content -->
-    <!-- Footer -->
     <?php include('../components/footer.php'); ?>
-    <!-- End Footer -->
 </div>
-<!-- End Main Content -->
 </body>
 
 </html>
